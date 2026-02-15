@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNETV Clima Rural - Medicilândia/PA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a0a 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #00ff00;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5), inset 0 0 20px rgba(0, 255, 0, 0.1);
+            animation: neonGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes neonGlow {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(0, 255, 0, 0.5), inset 0 0 20px rgba(0, 255, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(0, 255, 0, 0.8), inset 0 0 30px rgba(0, 255, 0, 0.2);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 15px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00; }
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #00cc00;
+            margin-bottom: 10px;
+        }
+
+        .location-info {
+            font-size: 11px;
+            color: #00aa00;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .motor-status {
+            font-size: 10px;
+            color: #00ff00;
+            margin-top: 8px;
+            padding: 5px;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .button-container {
+            margin: 20px 0;
+        }
+
+        .update-button {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #000;
+            border: 3px solid #00ff00;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .update-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #00ff00, #00ff00);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        .update-button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .update-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #00ff00;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .weather-data {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            min-height: 200px;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .weather-item {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .weather-label {
+            font-size: 11px;
+            color: #00aa00;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .weather-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .large-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .large-item {
+            background: rgba(0, 255, 0, 0.15);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .large-label {
+            font-size: 10px;
+            color: #00aa00;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .large-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+        }
+
+        .alerts {
+            margin: 15px 0;
+        }
+
+        .alert {
+            background: rgba(255, 100, 0, 0.2);
+            border-left: 4px solid #ff6400;
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #ffaa00;
+        }
+
+        .alert.success {
+            background: rgba(0, 255, 0, 0.2);
+            border-left-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .hourly-forecast {
+            margin: 15px 0;
+        }
+
+        .forecast-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .forecast-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+        }
+
+        .forecast-item {
+            flex-shrink: 0;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            min-width: 70px;
+            font-size: 11px;
+        }
+
+        .forecast-time {
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 5px;
+        }
+
+        .forecast-icon {
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        .forecast-temp {
+            color: #00ff00;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .forecast-rain {
+            color: #00aa00;
+            font-size: 10px;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            padding: 12px;
+            color: #ff6666;
+            margin: 15px 0;
+            font-size: 12px;
+        }
+
+        .cache-info {
+            font-size: 10px;
+            color: #00aa00;
+            margin-top: 10px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 255, 0, 0.05);
+            border-radius: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #00ff00;
+            font-size: 10px;
+            color: #00aa00;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 10px;
+                padding: 15px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .update-button {
+                padding: 18px;
+                font-size: 16px;
+            }
+
+            .large-value {
+                font-size: 32px;
+            }
+
+            .weather-value {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌦️</div>
+            <div class="title">PNETV CLIMA RURAL</div>
+            <div class="subtitle">Medicilândia - Pará</div>
+            <div class="location-info">
+                <div id="location-display">📍 Aguardando GPS...</div>
+                <div id="timestamp-display" style="margin-top: 5px; font-size: 10px;"></div>
+                <div class="motor-status" id="motor-status">🎯 Motor 1 de 4 ativo</div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="update-button" id="updateButton" onclick="updateWeather()">
+                🔄 ATUALIZAR GPS & CLIMA
+            </button>
+        </div>
+
+        <div id="cacheInfo" class="cache-info"></div>
+
+        <div id="errorContainer"></div>
+
+        <div id="weatherContainer" class="weather-data" style="display: none;">
+            <div class="large-values">
+                <div class="large-item">
+                    <div class="large-label">Chance de Chuva</div>
+                    <div class="large-value" id="rainChance">--%</div>
+                </div>
+                <div class="large-item">
+                    <div class="large-label">Volume Previsto</div>
+                    <div class="large-value" id="rainVolume">--mm</div>
+                </div>
+            </div>
+
+            <div class="weather-grid">
+                <div class="weather-item">
+                    <div class="weather-label">Temperatura</div>
+                    <div class="weather-value" id="temperature">--°C</div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-label">Sensação</div>
+                    <div class="weather-value" id="feelsLike">--°C</div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-label">Índice UV</div>
+                    <div class="weather-value" id="uvIndex">--</div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-label">Vento</div>
+                    <div class="weather-value" id="windSpeed">-- km/h</div>
+                </div>
+            </div>
+
+            <div id="alertsContainer" class="alerts"></div>
+
+            <div class="hourly-forecast">
+                <div class="forecast-label">Previsão Horária (24h)</div>
+                <div class="forecast-scroll" id="forecastScroll"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div id="footerStatus">Clique no botão para atualizar o clima</div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração de chaves Tomorrow.io (Round-Robin)
+        const TOMORROW_IO_KEYS = [
+            'HSPwvjm6d1F9PF0nJp7BRQvNv46uvaxm',
+            'PCoKXoOQT2vxpseVcD1ekwittosC9YRz',
+            'JRpr4JO6vO1iB8TRtqgg7SN3j3hNz8MV',
+            'dX5spY8se1pyvJLzdmi8QCncFkOiUzAi'
+        ];
+
+        const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+        const RAIN_THRESHOLD = 15; // mm para alerta de lama
+        const GOOD_WEATHER_HOURS = 4; // horas sem chuva
+
+        let currentMotor = 1;
+        let lastUpdateTime = null;
+        let currentLocation = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedState();
+            updateMotorStatus();
+            updateCacheInfo();
+        });
+
+        function loadSavedState() {
+            const saved = localStorage.getItem('pnetv_motor');
+            if (saved) currentMotor = parseInt(saved);
+        }
+
+        function saveState() {
+            localStorage.setItem('pnetv_motor', currentMotor.toString());
+            localStorage.setItem('pnetv_lastUpdate', lastUpdateTime.toString());
+        }
+
+        function updateMotorStatus() {
+            document.getElementById('motor-status').textContent = `🎯 Motor ${currentMotor} de 4 ativo`;
+            document.getElementById('footerStatus').textContent = `🎯 Clima Exato: Motor ${currentMotor} de 4 ativo`;
+        }
+
+        function updateCacheInfo() {
+            if (!lastUpdateTime) {
+                document.getElementById('cacheInfo').textContent = '';
+                return;
+            }
+
+            const timeSinceUpdate = Date.now() - lastUpdateTime;
+            const secondsRemaining = Math.ceil((CACHE_DURATION - timeSinceUpdate) / 1000);
+
+            if (timeSinceUpdate < CACHE_DURATION) {
+                document.getElementById('cacheInfo').textContent = 
+                    `⏱️ Próxima atualização em ${secondsRemaining}s (cache de 5 min)`;
+                document.getElementById('updateButton').disabled = true;
+            } else {
+                document.getElementById('cacheInfo').textContent = '';
+                document.getElementById('updateButton').disabled = false;
+            }
+        }
+
+        async function updateWeather() {
+            const button = document.getElementById('updateButton');
+            button.disabled = true;
+            button.innerHTML = '<span class="loading"></span>Buscando clima...';
+
+            try {
+                // Obter localização GPS
+                if (!currentLocation) {
+                    currentLocation = await getGPSLocation();
+                }
+
+                if (!currentLocation) {
+                    showError('Erro ao obter localização GPS. Verifique as permissões.');
+                    button.innerHTML = '🔄 ATUALIZAR GPS & CLIMA';
+                    button.disabled = false;
+                    return;
+                }
+
+                // Atualizar display de localização
+                document.getElementById('location-display').textContent = 
+                    `📍 ${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)}`;
+
+                // Buscar dados climáticos
+                let weatherData = null;
+                try {
+                    weatherData = await fetchWeatherFromTomorrowIO(
+                        currentLocation.latitude,
+                        currentLocation.longitude,
+                        currentMotor
+                    );
+                } catch (error) {
+                    if (error.message === '429') {
+                        // Tentar próximos motores
+                        for (let i = 0; i < 3; i++) {
+                            currentMotor = (currentMotor % 4) + 1;
+                            try {
+                                weatherData = await fetchWeatherFromTomorrowIO(
+                                    currentLocation.latitude,
+                                    currentLocation.longitude,
+                                    currentMotor
+                                );
+                                break;
+                            } catch (e) {
+                                if (e.message !== '429') throw e;
+                            }
+                        }
+                        if (!weatherData) {
+                            showError('Limite diário de requisições atingido. Tente novamente mais tarde.');
+                            throw new Error('Todos os motores esgotados');
+                        }
+                    } else {
+                        throw error;
+                    }
+                }
+
+                // Processar e exibir dados
+                displayWeatherData(weatherData);
+                lastUpdateTime = Date.now();
+                saveState();
+                updateMotorStatus();
+                clearError();
+
+                // Atualizar timestamp
+                const now = new Date();
+                document.getElementById('timestamp-display').textContent = 
+                    `Atualizado: ${now.toLocaleTimeString('pt-BR')}`;
+
+            } catch (error) {
+                showError(`Erro: ${error.message}`);
+            } finally {
+                button.innerHTML = '🔄 ATUALIZAR GPS & CLIMA';
+                button.disabled = false;
+                updateCacheInfo();
+                // Atualizar cache info a cada segundo
+                setInterval(updateCacheInfo, 1000);
+            }
+        }
+
+        async function getGPSLocation() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocalização não suportada'));
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        });
+                    },
+                    (error) => {
+                        reject(new Error(`Erro GPS: ${error.message}`));
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            });
+        }
+
+        async function fetchWeatherFromTomorrowIO(lat, lon, motor) {
+            const apiKey = TOMORROW_IO_KEYS[motor - 1];
+            const url = `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lon}&apikey=${apiKey}&timesteps=1h`;
+
+            try {
+                const response = await fetch(url);
+
+                if (response.status === 429) {
+                    throw new Error('429');
+                }
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Validar estrutura de dados
+                if (!data.timelines || !data.timelines.hourly) {
+                    throw new Error('Estrutura de dados inválida');
+                }
+
+                return parseWeatherData(data);
+
+            } catch (error) {
+                if (error.message === '429') {
+                    throw error;
+                }
+                throw new Error(`Erro ao buscar clima: ${error.message}`);
+            }
+        }
+
+        function parseWeatherData(data) {
+            try {
+                // Extrair dados do minutely (atual)
+                const current = data.timelines.minutely && data.timelines.minutely.length > 0
+                    ? data.timelines.minutely[0].values
+                    : data.timelines.hourly[0].values;
+
+                // Extrair dados horários (próximas 24 horas)
+                const hourlyData = data.timelines.hourly.slice(0, 24);
+
+                // Calcular chuva acumulada (24h)
+                let totalRain = 0;
+                hourlyData.forEach(hour => {
+                    if (hour.values && hour.values.precipitationIntensity) {
+                        totalRain += hour.values.precipitationIntensity;
+                    }
+                });
+
+                // Encontrar janela de bom tempo (4h+ sem chuva)
+                let goodWeatherWindow = 0;
+                for (let i = 0; i < hourlyData.length; i++) {
+                    const hour = hourlyData[i];
+                    if (hour.values && (hour.values.precipitationProbability || 0) < 20) {
+                        goodWeatherWindow++;
+                        if (goodWeatherWindow >= GOOD_WEATHER_HOURS) {
+                            break;
+                        }
+                    } else {
+                        goodWeatherWindow = 0;
+                    }
+                }
+
+                return {
+                    temperature: Math.round(current.temperature || 0),
+                    temperatureApparent: Math.round(current.temperatureApparent || 0),
+                    precipitationProbability: Math.round(current.precipitationProbability || 0),
+                    precipitationIntensity: (current.precipitationIntensity || 0).toFixed(1),
+                    uvIndex: (current.uvIndex || 0).toFixed(1),
+                    windSpeed: Math.round(current.windSpeed || 0),
+                    windDirection: Math.round(current.windDirection || 0),
+                    totalRain: totalRain.toFixed(1),
+                    hasRoadRisk: totalRain > RAIN_THRESHOLD,
+                    hasGoodWeather: goodWeatherWindow >= GOOD_WEATHER_HOURS,
+                    hourlyData: hourlyData
+                };
+
+            } catch (error) {
+                throw new Error(`Erro ao processar dados: ${error.message}`);
+            }
+        }
+
+        function displayWeatherData(weather) {
+            // Dados principais
+            document.getElementById('temperature').textContent = `${weather.temperature}°C`;
+            document.getElementById('feelsLike').textContent = `${weather.temperatureApparent}°C`;
+            document.getElementById('rainChance').textContent = `${weather.precipitationProbability}%`;
+            document.getElementById('rainVolume').textContent = `${weather.precipitationIntensity}mm`;
+            document.getElementById('uvIndex').textContent = weather.uvIndex;
+            document.getElementById('windSpeed').textContent = `${weather.windSpeed} km/h`;
+
+            // Alertas rurais
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.innerHTML = '';
+
+            if (weather.hasRoadRisk) {
+                alertsContainer.innerHTML += `
+                    <div class="alert">
+                        ⚠️ RISCO DE LAMA: Estrada pesada<br>
+                        Chuva acumulada: ${weather.totalRain}mm (últimas 24h)
+                    </div>
+                `;
+            }
+
+            if (weather.hasGoodWeather) {
+                alertsContainer.innerHTML += `
+                    <div class="alert success">
+                        ☀️ TEMPO FIRME: ${GOOD_WEATHER_HOURS}h+ sem chuva<br>
+                        Bom para lida externa
+                    </div>
+                `;
+            }
+
+            // Previsão horária
+            const forecastScroll = document.getElementById('forecastScroll');
+            forecastScroll.innerHTML = '';
+
+            weather.hourlyData.forEach((hour, index) => {
+                const time = new Date(hour.time);
+                const hourStr = time.getHours() + 'h';
+                const temp = Math.round(hour.values.temperature || 0);
+                const rainProb = Math.round(hour.values.precipitationProbability || 0);
+                const icon = getWeatherIcon(hour.values);
+
+                forecastScroll.innerHTML += `
+                    <div class="forecast-item">
+                        <div class="forecast-time">${hourStr}</div>
+                        <div class="forecast-icon">${icon}</div>
+                        <div class="forecast-temp">${temp}°</div>
+                        <div class="forecast-rain">${rainProb}%</div>
+                    </div>
+                `;
+            });
+
+            // Mostrar container
+            document.getElementById('weatherContainer').style.display = 'block';
+        }
+
+        function getWeatherIcon(values) {
+            const precipProb = values.precipitationProbability || 0;
+            const rainIntensity = values.rainIntensity || 0;
+
+            if (precipProb > 70 || rainIntensity > 2) return '🌧️';
+            if (precipProb > 40 || rainIntensity > 0.5) return '⛅';
+            if (values.cloudCover > 80) return '☁️';
+            return '☀️';
+        }
+
+        function showError(message) {
+            const container = document.getElementById('errorContainer');
+            container.innerHTML = `<div class="error">❌ ${message}</div>`;
+        }
+
+        function clearError() {
+            document.getElementById('errorContainer').innerHTML = '';
+        }
+
+        // Atualizar cache info periodicamente
+        setInterval(updateCacheInfo, 1000);
+    </script>
+</body>
+</html>
