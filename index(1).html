@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 Mapa Mental Primeira República - ENEM/Vestibular</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .category {
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .cat-header {
+            padding: 15px 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cat-header.messianica { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .cat-header.exclusao { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+        .cat-header.ruptura { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .cat-header.operario { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+        .cat-body {
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .item::after {
+            content: "👆 Clique para mais detalhes";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: #999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .item:hover::after {
+            opacity: 1;
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item.messianica { border-left-color: #11998e; }
+        .item.exclusao { border-left-color: #fc4a1a; }
+        .item.ruptura { border-left-color: #4facfe; }
+        .item.operario { border-left-color: #f093fb; }
+
+        .item-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .item-content {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .dica {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .dica-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px solid #ff8c69;
+        }
+
+        .dica-box h3 {
+            color: #d63031;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .dica-item {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .cronologia {
+            background: #2d3436;
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .cronologia h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #74b9ff;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            background: rgba(116, 185, 255, 0.2);
+        }
+
+        .ano {
+            background: #74b9ff;
+            color: #2d3436;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            min-width: 80px;
+            text-align: center;
+            margin-right: 15px;
+        }
+
+        .evento {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .macetes {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .macetes h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .macete-table {
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .macete-table td {
+            padding: 8px;
+            border-bottom: 1px solid #c8e6c9;
+        }
+
+        .macete-table td:first-child {
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 25px;
+            color: white;
+            position: relative;
+        }
+
+        .modal-header.messianica { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .modal-header.exclusao { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+        .modal-header.ruptura { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .modal-header.operario { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .modal-header.cronologia { background: linear-gradient(135deg, #2d3436, #636e72); }
+        .modal-header.dicas { background: linear-gradient(135deg, #ff8c69, #ff6b6b); }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            margin-right: 30px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section p, .modal-section ul {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .modal-section ul {
+            padding-left: 20px;
+        }
+
+        .modal-section li {
+            margin-bottom: 8px;
+        }
+
+        .modal-dica {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .modal-dica strong {
+            color: #856404;
+        }
+
+        .modal-dica p {
+            color: #856404;
+            margin: 0;
+        }
+
+        .enem-tag {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .content {
+                padding: 15px;
+            }
+            .modal-content {
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 MAPA MENTAL COMPLETO</h1>
+            <p>Primeira República (1889-1930)<br>ENEM & Vestibular</p>
+        </div>
+
+        <div class="content">
+            <!-- 1. Revoltas Messianicas -->
+            <div class="category">
+                <div class="cat-header messianica">
+                    <span class="emoji">🟢</span> 1. REVOLTAS MESSIÂNICAS (Rurais)
+                </div>
+                <div class="cat-body">
+                    <div class="item messianica" onclick="openModal('canudos')">
+                        <div class="item-title">📍 CANUDOS (BA) - 1896-1897</div>
+                        <div class="item-content">
+                            <strong>Líder:</strong> Antônio Conselheiro<br>
+                            <strong>Causa:</strong> Miséria no sertão + liderança religiosa<br>
+                            <strong>Fato:</strong> Comunidade autossuficiente ameaçava coronéis<br>
+                            <strong>Fim:</strong> Exército destruiu tudo (30 mil mortos)
+                        </div>
+                        <div class="dica">💡 Dica: Sempre associe com "messianismo" e "sertão nordestino"</div>
+                    </div>
+
+                    <div class="item messianica" onclick="openModal('contestado')">
+                        <div class="item-title">📍 CONTESTADO (PR/SC) - 1912-1916</div>
+                        <div class="item-content">
+                            <strong>Líder:</strong> Monge José Maria<br>
+                            <strong>Causa:</strong> Camponeses expulsos para ferrovia Madeira-Mamoré<br>
+                            <strong>Fato:</strong> Promessa de "Terra sem males"<br>
+                            <strong>Fim:</strong> Exército massacrou sertanejos
+                        </div>
+                        <div class="dica">💡 Dica: Ferrovia + disputa de terras + religião</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Revoltas de Exclusao -->
+            <div class="category">
+                <div class="cat-header exclusao">
+                    <span class="emoji">🟠</span> 2. REVOLTAS DE EXCLUSÃO (Urbanas/RJ)
+                </div>
+                <div class="cat-body">
+                    <div class="item exclusao" onclick="openModal('vacina')">
+                        <div class="item-title">💉 VACINA - 1904</div>
+                        <div class="item-content">
+                            <strong>Causa:</strong> Vacinação obrigatória contra varíola<br>
+                            <strong>Reforma urbana:</strong> "Bota-Abaixo" - demolição de cortiços<br>
+                            <strong>Resultado:</strong> Pobres expulsos para morros<br>
+                            <strong>Ministro:</strong> Oswaldo Cruz (Saúde Pública)
+                        </div>
+                        <div class="dica">💡 Dica: Autoritarismo + saúde pública + despejos</div>
+                    </div>
+
+                    <div class="item exclusao" onclick="openModal('chibata')">
+                        <div class="item-title">⚓ CHIBATA - 1910</div>
+                        <div class="item-content">
+                            <strong>Líder:</strong> João Cândido (Almirante Negro)<br>
+                            <strong>Causa:</strong> Marinheiros negros contra castigos físicos<br>
+                            <strong>Reivindicação:</strong> Fim da chibata + melhores salários<br>
+                            <strong>Fim:</strong> Governo traiu → presos e perseguidos
+                        </div>
+                        <div class="dica">💡 Dica: Racismo + marinha + castigos corporais</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Ruptura Politica -->
+            <div class="category">
+                <div class="cat-header ruptura">
+                    <span class="emoji">🔵</span> 3. RUPTURA POLÍTICA (Tenentismo)
+                </div>
+                <div class="cat-body">
+                    <div class="item ruptura" onclick="openModal('tenentismo')">
+                        <div class="item-title">🎖️ TENENTISMO - 1922</div>
+                        <div class="item-content">
+                            <strong>Quem:</strong> Jovens oficiais do exército (tenentes)<br>
+                            <strong>Objetivo:</strong> Derrubar "Café com Leite"<br>
+                            <strong>Pautas:</strong> Voto secreto, fim da corrupção, moralização<br>
+                            <strong>Início:</strong> 18 do Forte de Copacabana (1922)
+                        </div>
+                        <div class="dica">💡 Dica: Elite média/militar vs. oligarquias</div>
+                    </div>
+
+                    <div class="item ruptura" onclick="openModal('prestes')">
+                        <div class="item-title">🚶 COLUNA PRESTES - 1924-1927</div>
+                        <div class="item-content">
+                            <strong>Líder:</strong> Luís Carlos Prestes<br>
+                            <strong>Fato:</strong> Marcha de 25.000 km pelo Brasil<br>
+                            <strong>Objetivo:</strong> Conscientizar povo contra governo<br>
+                            <strong>Resultado:</strong> Derrotada, mas Prestes virou mito
+                        </div>
+                        <div class="dica">💡 Dica: 25 mil km + interior do Brasil + consciência política</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Movimento Operario -->
+            <div class="category">
+                <div class="cat-header operario">
+                    <span class="emoji">🔴</span> 4. MOVIMENTO OPERÁRIO (SP)
+                </div>
+                <div class="cat-body">
+                    <div class="item operario" onclick="openModal('greve1917')">
+                        <div class="item-title">⚙️ GREVE GERAL - 1917</div>
+                        <div class="item-content">
+                            <strong>Local:</strong> São Paulo (fábricas de tecelagem)<br>
+                            <strong>Influência:</strong> Imigrantes europeus (anarquistas)<br>
+                            <strong>Pautas:</strong> Jornada 8h, fim trabalho infantil, aumento salarial<br>
+                            <strong>Repressão:</strong> Violenta, muitos mortos
+                        </div>
+                        <div class="dica">💡 Dica: Primeira grande greve + anarquismo + 8 horas</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dicas de Ouro -->
+            <div class="dica-box">
+                <h3>🏆 DICAS DE OURO</h3>
+                <div class="dica-item" onclick="openModal('coronelismo')" style="cursor: pointer;">👔 <strong>CORONELISMO:</strong> Voto de Cabresto (fazendeiro controla voto)</div>
+                <div class="dica-item" onclick="openModal('governadores')" style="cursor: pointer;">🤝 <strong>POLÍTICA DOS GOVERNADORES:</strong> Troca de favores (Presid. ↔ Governadores)</div>
+                <div class="dica-item" onclick="openModal('cafeleite')" style="cursor: pointer;">☕ <strong>CAFÉ COM LEITE:</strong> SP (café) alterna com MG (leite) no poder</div>
+                <div class="dica-item" onclick="openModal('floriano')" style="cursor: pointer;">⚔️ <strong>FLORIANO PEIXOTO:</strong> "Marechal de Ferro" - esmagou Revolta da Armada</div>
+            </div>
+
+            <!-- Cronologia -->
+            <div class="cronologia">
+                <h3>📅 CRONOLOGIA RÁPIDA</h3>
+                <div class="timeline-item" onclick="openModal('revoltaarmada')">
+                    <div class="ano">1893-94</div>
+                    <div class="evento">Revolta da Armada + Federalista (10 mil mortos)</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronocanudos')">
+                    <div class="ano">1896-97</div>
+                    <div class="evento">CANUDOS - 30 mil mortos, fim do messianismo</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronovacina')">
+                    <div class="ano">1904</div>
+                    <div class="evento">VACINA - Oswaldo Cruz, Bota-Abaixo</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronochibata')">
+                    <div class="ano">1910</div>
+                    <div class="evento">CHIBATA - João Cândido, fim dos castigos</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronocontestado')">
+                    <div class="ano">1912-16</div>
+                    <div class="evento">CONTESTADO - Monge José Maria</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronogreve')">
+                    <div class="ano">1917</div>
+                    <div class="evento">GREVE GERAL - 8h de trabalho, anarquistas</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronotenentismo')">
+                    <div class="ano">1922</div>
+                    <div class="evento">18 DO FORTE - Início do Tenentismo</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('cronoprestes')">
+                    <div class="ano">1924-27</div>
+                    <div class="evento">COLUNA PRESTES - 25 mil km</div>
+                </div>
+                <div class="timeline-item" onclick="openModal('rev1930')">
+                    <div class="ano">1930</div>
+                    <div class="evento">FIM - Revolução de 1930 (Vargas)</div>
+                </div>
+            </div>
+
+            <!-- Macetes -->
+            <div class="macetes">
+                <h3>🎯 MACETES DE PROVA</h3>
+                <table class="macete-table">
+                    <tr onclick="openModal('macete1')" style="cursor: pointer;">
+                        <td>"Líder religioso no sertão"</td>
+                        <td>→ Messianismo (Canudos/Contestado)</td>
+                    </tr>
+                    <tr onclick="openModal('macete2')" style="cursor: pointer;">
+                        <td>"Vacinação obrigatória"</td>
+                        <td>→ Revolta da Vacina (1904)</td>
+                    </tr>
+                    <tr onclick="openModal('macete3')" style="cursor: pointer;">
+                        <td>"Marinheiros negros"</td>
+                        <td>→ Revolta da Chibata</td>
+                    </tr>
+                    <tr onclick="openModal('macete4')" style="cursor: pointer;">
+                        <td>"18 oficiais" / "Forte"</td>
+                        <td>→ Tenentismo (1922)</td>
+                    </tr>
+                    <tr onclick="openModal('macete5')" style="cursor: pointer;">
+                        <td>"25 mil km" / "Marcha"</td>
+                        <td>→ Coluna Prestes</td>
+                    </tr>
+                    <tr onclick="openModal('macete6')" style="cursor: pointer;">
+                        <td>"8 horas" / "Greve SP"</td>
+                        <td>→ Greve Geral 1917</td>
+                    </tr>
+                    <tr onclick="openModal('macete7')" style="cursor: pointer;">
+                        <td>"Voto de Cabresto"</td>
+                        <td>→ Coronelismo</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            📚 Bons estudos! Compartilhe com os amigos 🚀<br>
+            <small>Primeira República (1889-1930) - Resumo Completo</small>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header" id="modalHeader">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <h2 id="modalTitle">Título</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Conteúdo dinâmico -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalData = {
+            canudos: {
+                category: 'messianica',
+                title: '📍 CANUDOS (BA) - 1896-1897',
+                content: `
+                    <div class="modal-section">
+                        <h4>👤 Quem foi Antônio Conselheiro?</h4>
+                        <p>Antônio Vicente Mendes Maciel, conhecido como Antônio Conselheiro, foi um líder religioso que percorria o sertão nordestino pregando a fé e construindo igrejas. Era visto como um messias pelos sertanejos.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🏘️ A Comunidade de Canudos</h4>
+                        <ul>
+                            <li>Localizada às margens do rio Vaza-Barris, na Bahia</li>
+                            <li>Chegou a ter cerca de 30 mil habitantes</li>
+                            <li>Comunidade autossuficiente: produzia próprio alimento, tinha escolas, igrejas</li>
+                            <li>Rejeitava a República e defendia o retorno da monarquia</li>
+                            <li>Não pagava impostos nem reconhecia a autoridade civil</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚔️ Os Quatro Expedicionários</h4>
+                        <p>O governo enviou quatro expedições militares para destruir Canudos:</p>
+                        <ul>
+                            <li><strong>1ª (1896):</strong> Derrotada, 150 soldados mortos</li>
+                            <li><strong>2ª (1897):</strong> Derrotada novamente</li>
+                            <li><strong>3ª (1897):</strong> Derrotada, mais de 500 mortos</li>
+                            <li><strong>4ª (1897):</strong> Com 8 mil homens, finalmente destruiu Canudos</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📖 "Os Sertões" - Euclides da Cunha</h4>
+                        <p>Obra fundamental da literatura brasileira que relata a guerra de Canudos. Euclides, jornalista que acompanhou a 4ª expedição, descreveu o sertanejo como um "homem forte, corajoso e digno de admiração".</p>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>Canudos representa o conflito entre o Estado moderno (República) e as tradições populares (messianismo). É comum cair questões sobre a resistência sertaneja contra a centralização do poder.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Cai muito no ENEM!</span>
+                `
+            },
+            contestado: {
+                category: 'messianica',
+                title: '📍 CONTESTADO (PR/SC) - 1912-1916',
+                content: `
+                    <div class="modal-section">
+                        <h4>🗺️ Onde era o Contestado?</h4>
+                        <p>Região de fronteira entre Paraná e Santa Catarina, área de disputa territorial entre os dois estados. Zona de mata atlântica densa e difícil acesso.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>👤 Monge José Maria</h4>
+                        <ul>
+                            <li>Líder religioso que prometia a "Terra sem males"</li>
+                            <li>Pregava contra a República e o positivismo</li>
+                            <li>Prometia justiça social e distribuição de terras</li>
+                            <li>Morreu em 1912, mas o movimento continuou</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🚂 A Ferrovia Madeira-Mamoré</h4>
+                        <p>Construída para escoar a borracha da Amazônia, a ferrovia:</p>
+                        <ul>
+                            <li>Expulsou milhares de camponeses de suas terras</li>
+                            <li>Foi chamada de "Ferrovia da Morte" (50 mil mortos)</li>
+                            <li>Deslocou trabalhadores para o Contestado</li>
+                            <li>Aumentou a tensão por terras na região</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚔️ A Guerra do Contestado</h4>
+                        <ul>
+                            <li>Durou 4 anos (1912-1916)</li>
+                            <li>Mais de 20 mil sertanejos participaram</li>
+                            <li>Exército usou metralhadoras e armas modernas</li>
+                            <li>Massacre de civis, incluindo mulheres e crianças</li>
+                            <li>Fim: exército destruiu todos os acampamentos</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>O Contestado mostra como a "ordem e progresso" da República velha marginalizou os camponeses. Questões frequentes abordam a disputa por terras e o papel das ferrovias na expulsão de populações.</p>
+                    </div>
+                `
+            },
+            vacina: {
+                category: 'exclusao',
+                title: '💉 REVOLTA DA VACINA - 1904',
+                content: `
+                    <div class="modal-section">
+                        <h4>🦠 O Contexto: Varíola no Rio</h4>
+                        <p>O Rio de Janeiro vivia uma epidemia de varíola que matou milhares de pessoas. A doença era altamente contagiosa e letal. A vacinação era a única forma de prevenção.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>👨‍⚕️ Oswaldo Cruz</h4>
+                        <ul>
+                            <li>Médico sanitarista, diretor de Saúde Pública</li>
+                            <li>Implementou a vacinação obrigatória</li>
+                            <li>Posteriormente fundou o Instituto Oswaldo Cruz</li>
+                            <li>Grande nome da medicina brasileira</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🏚️ A Reforma Urbana (Bota-Abaixo)</h4>
+                        <p>O prefeito Pereira Passos realizou uma "limpeza" urbana:</p>
+                        <ul>
+                            <li>Demolição de cortiços no centro</li>
+                            <li>Expulsão de pobres para morros e subúrbios</li>
+                            <li>Abertura de avenidas largas (inspiração parisiense)</li>
+                            <li>Remoção forçada de famílias inteiras</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🔥 A Revolta</h4>
+                        <ul>
+                            <li>População pobre se revoltou contra a obrigatoriedade</li>
+                            <li>Manifestações violentas no Rio de Janeiro</li>
+                            <li>Barricadas nas ruas, confronto com polícia</li>
+                            <li>Governo recuou e suspendeu a obrigatoriedade</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Revolta da Vacina mostra o conflito entre saúde pública e liberdades individuais. Questões abordam o autoritarismo do Estado e as desigualdades sociais na Primeira República.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Tema atual: vacinação!</span>
+                `
+            },
+            chibata: {
+                category: 'exclusao',
+                title: '⚓ REVOLTA DA CHIBATA - 1910',
+                content: `
+                    <div class="modal-section">
+                        <h4>👤 João Cândido - "Almirante Negro"</h4>
+                        <p>Filho de escravos libertos, João Cândido Felisberto era um marinheiro negro que se tornou o líder da revolta. Sua liderança e carisma uniram os marinheiros.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>😢 A Chibata na Marinha</h4>
+                        <ul>
+                            <li>Castigos físicos eram rotina na Marinha</li>
+                            <li>Marinheiros negros eram os mais castigados</li>
+                            <li>A chibata (chicote) deixava marcas permanentes</li>
+                            <li>Humilhações e torturas eram frequentes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚓ A Revolta</h4>
+                        <ul>
+                            <li><strong>Data:</strong> 22 de novembro de 1910</li>
+                            <li><strong>Local:</strong> Navios ancorados na baía de Guanabara</li>
+                            <li><strong>Participantes:</strong> Mais de 2 mil marinheiros</li>
+                            <li><strong>Reivindicações:</strong> Fim da chibata, aumento de salário, anistia</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🤝 O Acordo e a Traição</h4>
+                        <p>O governo assinou um acordo prometendo:</p>
+                        <ul>
+                            <li>Fim dos castigos corporais</li>
+                            <li>Aumento salarial</li>
+                            <li>Anistia aos revoltosos</li>
+                        </ul>
+                        <p><strong>Mas...</strong> o governo não cumpriu:</p>
+                        <ul>
+                            <li>João Cândido foi preso e internado em manicômio</li>
+                            <li>Outros líderes foram perseguidos</li>
+                            <li>A chibata acabou, mas os marinheiros sofreram retaliações</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Chibata é um exemplo de luta contra o racismo institucional. Questões frequentes abordam a violência estatal, o racismo e a exclusão dos negros na Primeira República.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Questões sobre racismo!</span>
+                `
+            },
+            tenentismo: {
+                category: 'ruptura',
+                title: '🎖️ TENENTISMO - 1922',
+                content: `
+                    <div class="modal-section">
+                        <h4>👥 Quem eram os Tenentes?</h4>
+                        <p>Jovens oficiais do exército, geralmente de origem média, que se revoltaram contra as oligarquias ("Café com Leite") que dominavam a política brasileira.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📋 Principais Pautas</h4>
+                        <ul>
+                            <li>Voto secreto (acabar com o voto de cabresto)</li>
+                            <li>Fim da corrupção eleitoral</li>
+                            <li>Moralização da política</li>
+                            <li>Justiça social</li>
+                            <li>Reforma agrária</li>
+                            <li>Industrialização do país</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🔫 18 do Forte de Copacabana</h4>
+                        <ul>
+                            <li><strong>Data:</strong> 5 de julho de 1922</li>
+                            <li><strong>Local:</strong> Forte de Copacabana, Rio de Janeiro</li>
+                            <li><strong>Participantes:</strong> 18 oficiais revoltosos</li>
+                            <li><strong>Causa imediata:</strong> Eleição de Artur Bernardes (perseguição aos militares)</li>
+                        </ul>
+                        <p>Os 18 tenentes marcharam pela praia de Copacabana e foram confrontados pelo exército. Apenas dois sobreviveram: Eduardo Gomes e Siqueira Campos.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🎯 Outras Revoltas Tenentistas</h4>
+                        <ul>
+                            <li><strong>São Paulo (1924):</strong> Ocupou a cidade por 3 semanas</li>
+                            <li><strong>Comunista (1935):</strong> Prestes liderou revolta comunista</li>
+                            <li><strong>Integralista (1938):</strong> Tentativa de golpe fascista</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>O tenentismo representou a insatisfação das elites médias com a política oligarquica. Foi um movimento que buscava modernizar o Brasil, mas sem participação popular.</p>
+                    </div>
+                `
+            },
+            prestes: {
+                category: 'ruptura',
+                title: '🚶 COLUNA PRESTES - 1924-1927',
+                content: `
+                    <div class="modal-section">
+                        <h4>👤 Luís Carlos Prestes</h4>
+                        <p>Engenheiro militar, líder tenentista que se tornou uma lenda viva. Conhecido como "Cavaleiro da Esperança", marchou 25 mil km pelo interior do Brasil.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🗺️ A Marcha de 25.000 km</h4>
+                        <ul>
+                            <li><strong>Duração:</strong> 2 anos e 11 meses</li>
+                            <li><strong>Distância:</strong> Aproximadamente 25.000 km</li>
+                            <li><strong>Regiões:</strong> Passou por 13 estados brasileiros</li>
+                            <li><strong>Tática:</strong> Guerra de guerrilha, nunca parava</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🎯 Objetivos</h4>
+                        <ul>
+                            <li>Conscientizar o povo contra o governo</li>
+                            <li>Denunciar as oligarquias</li>
+                            <li>Evitar confrontos diretos (estratégia de fuga)</li>
+                            <li>Criar um movimento nacional</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📉 Resultado</h4>
+                        <ul>
+                            <li>A coluna foi derrotada militarmente</li>
+                            <li>Prestes exilou-se na Bolívia</li>
+                            <li>Mas virou um mito nacional</li>
+                            <li>Posteriormente se tornou comunista</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Coluna Prestes é um marco do tenentismo. Questões frequentes abordam a insatisfação militar, a crise das oligarquias e a busca por mudanças políticas na década de 1920.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Número marcante: 25 mil km!</span>
+                `
+            },
+            greve1917: {
+                category: 'operario',
+                title: '⚙️ GREVE GERAL DE 1917',
+                content: `
+                    <div class="modal-section">
+                        <h4>🏭 O Contexto Industrial</h4>
+                        <p>São Paulo vivia um boom industrial impulsionado pela Primeira Guerra Mundial. As fábricas de tecelagem empregavam milhares de trabalhadores, principalmente imigrantes europeus.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🌍 Influência dos Imigrantes</h4>
+                        <ul>
+                            <li>Italianos, espanhóis e portugueses trouxeram ideias anarquistas</li>
+                            <li>Experiência de lutas operárias na Europa</li>
+                            <li>Formação de sindicatos e associações</li>
+                            <li>Publicação de jornais operários</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📢 As Reivindicações</h4>
+                        <ul>
+                            <li>Jornada de trabalho de 8 horas</li>
+                            <li>Fim do trabalho infantil</li>
+                            <li>Aumento salarial</li>
+                            <li>Reconhecimento dos sindicatos</li>
+                            <li>Melhores condições de trabalho</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚔️ A Greve</h4>
+                        <ul>
+                            <li><strong>Início:</strong> Julho de 1917, fábrica de tecelagem</li>
+                            <li><strong>Adesão:</strong> Mais de 50 mil trabalhadores</li>
+                            <li><strong>Duração:</strong> Vários meses</li>
+                            <li><strong>Repressão:</strong> Polícia e exército atacaram manifestantes</li>
+                            <li><strong>Mortes:</strong> Dezenas de trabalhadores mortos</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🏆 Conquistas</h4>
+                        <p>Apesar da repressão, a greve conseguiu:</p>
+                        <ul>
+                            <li>Redução da jornada para 8 horas em algumas fábricas</li>
+                            <li>Aumento salarial parcial</li>
+                            <li>Visibilidade do movimento operário</li>
+                            <li>Organização sindical mais forte</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Greve de 1917 foi a primeira grande greve do Brasil. Questões abordam o movimento operário, o anarquismo, as condições de trabalho e a repressão estatal aos trabalhadores.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Primeira grande greve brasileira!</span>
+                `
+            },
+            coronelismo: {
+                category: 'dicas',
+                title: '👔 CORONELISMO',
+                content: `
+                    <div class="modal-section">
+                        <h4>🏛️ O que era o Coronelismo?</h4>
+                        <p>Sistema político baseado no controle local do voto pelos coronéis (chefes políticos locais, geralmente grandes proprietários de terra).</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🗳️ Voto de Cabresto</h4>
+                        <ul>
+                            <li>O coronel controlava como seus empregados votavam</li>
+                            <li>Ameaças de demissão ou violência</li>
+                            <li>Compra de votos com dinheiro, comida ou favores</li>
+                            <li>Controle das urnas eleitorais</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🔄 Troca de Favores</h4>
+                        <p>O sistema funcionava assim:</p>
+                        <ul>
+                            <li>Coronel entregava votos ao governador</li>
+                            <li>Governador indicava deputados e senadores</li>
+                            <li>Presidente da República nomeava governadores</li>
+                            <li>Formava-se uma rede de proteção mútua</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>O coronelismo era a base da "Política dos Governadores". Questões frequentes abordam o controle oligárquico, a falta de democracia e a concentração de poder nas mãos de poucos.</p>
+                    </div>
+                `
+            },
+            governadores: {
+                category: 'dicas',
+                title: '🤝 POLÍTICA DOS GOVERNADORES',
+                content: `
+                    <div class="modal-section">
+                        <h4>🏛️ O que era?</h4>
+                        <p>Estratégia política do presidente Campos Sales (1898-1902) que estabelecia uma aliança entre o governo federal e os governadores estaduais.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🔄 Como funcionava?</h4>
+                        <ul>
+                            <li><strong>Estados:</strong> Entregavam votos ao presidente</li>
+                            <li><strong>União:</strong> Liberava verbas e apoio militar</li>
+                            <li><strong>Resultado:</strong> Estabilidade política para as oligarquias</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📍 Estados mais poderosos</h4>
+                        <p>São Paulo e Minas Gerais dominavam a política nacional através do "Café com Leite".</p>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Política dos Governadores garantiu a hegemonia de SP e MG. Questões abordam a concentração do poder, a exclusão política e a estrutura oligárquica da Primeira República.</p>
+                    </div>
+                `
+            },
+            cafeleite: {
+                category: 'dicas',
+                title: '☕ CAFÉ COM LEITE',
+                content: `
+                    <div class="modal-section">
+                        <h4>🤝 O que era?</h4>
+                        <p>Acordo político entre São Paulo (produtor de café) e Minas Gerais (produtor de leite/dairy) para alternarem a presidência da República.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📊 Como funcionava?</h4>
+                        <ul>
+                            <li>SP indicava presidente → MG indicava vice</li>
+                            <li>Próximo mandato: MG indicava presidente → SP indicava vice</li>
+                            <li>Alternância garantida entre as duas oligarquias</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚠️ A Crise de 1929</h4>
+                        <p>Em 1929, o acordo foi rompido:</p>
+                        <ul>
+                            <li>Washington Luís (SP) indicou outro paulista (Júlio Prestes)</li>
+                            <li>MG ficou excluída da alternância</li>
+                            <li>Aliança Liberal formou-se contra o governo</li>
+                            <li>Resultado: Revolução de 1930</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A quebra do "Café com Leite" em 1929 levou à Revolução de 1930. Questões frequentes abordam a crise das oligarquias e o fim da Primeira República.</p>
+                    </div>
+                    <span class="enem-tag">🎯 Causa da Revolução de 1930!</span>
+                `
+            },
+            floriano: {
+                category: 'dicas',
+                title: '⚔️ FLORIANO PEIXOTO',
+                content: `
+                    <div class="modal-section">
+                        <h4>👤 Quem foi?</h4>
+                        <p>Segundo presidente do Brasil (1891-1894), conhecido como "Marechal de Ferro" ou "Consolidador da República". Foi vice de Deodoro da Fonseca.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🔫 Revolta da Armada (1893-1894)</h4>
+                        <ul>
+                            <li>Marinheiros revoltados contra o governo</li>
+                            <li>Liderados por almirais como Custódio de Melo</li>
+                            <li>Reivindicações: constitucionalismo, reformas</li>
+                            <li>Floriano esmagou a revolta com força</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚔️ Revolução Federalista (1893-1895)</h4>
+                        <ul>
+                            <li>Conflito no Rio Grande do Sul</li>
+                            <li>Maragatos (federalistas) vs. Pica-paus (republicanos)</li>
+                            <li>Mais de 10 mil mortos</li>
+                            <li>Floriano apoiou os republicanos gaúchos</li>
+                        </ul>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>Floriano Peixoto consolidou a República à força. Questões abordam a instabilidade dos primeiros anos republicanos e a violência como forma de governar.</p>
+                    </div>
+                `
+            },
+            revoltaarmada: {
+                category: 'cronologia',
+                title: '⚓ REVOLTA DA ARMADA - 1893-1894',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Contexto</h4>
+                        <p>Revolta da Marinha contra o governo de Floriano Peixoto. Os marinheiros exigiam respeito à Constituição de 1891 e a realização de novas eleições.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>⚔️ Desfecho</h4>
+                        <p>Floriano Peixoto esmagou a revolta com apoio do Exército. Muitos marinheiros foram presos ou fuzilados. A revolta fortaleceu o autoritarismo do governo.</p>
+                    </div>
+                `
+            },
+            cronocanudos: {
+                category: 'cronologia',
+                title: '📍 CANUDOS - 1896-1897',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Resumo</h4>
+                        <p>Guerra de Canudos foi o maior conflito interno do Brasil na Primeira República. Durou de novembro de 1896 a outubro de 1897.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💀 Saldo</h4>
+                        <ul>
+                            <li>Cerca de 30 mil mortos (civis e militares)</li>
+                            <li>Comunidade completamente destruída</li>
+                            <li>Antônio Conselheiro morreu antes do fim (setembro/1897)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            cronovacina: {
+                category: 'cronologia',
+                title: '💉 REVOLTA DA VACINA - 1904',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Quando?</h4>
+                        <p>Novembro de 1904, no Rio de Janeiro.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🎯 Resultado</h4>
+                        <p>O governo recuou e suspendeu a vacinação obrigatória. A revolta mostrou a resistência popular às medidas autoritárias do Estado.</p>
+                    </div>
+                `
+            },
+            cronochibata: {
+                category: 'cronologia',
+                title: '⚓ REVOLTA DA CHIBATA - 1910',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Data</h4>
+                        <p>22 de novembro de 1910, na baía de Guanabara.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🏆 Conquista</h4>
+                        <p>Fim oficial dos castigos corporais na Marinha brasileira, embora os líderes tenham sido perseguidos.</p>
+                    </div>
+                `
+            },
+            cronocontestado: {
+                category: 'cronologia',
+                title: '📍 CONTESTADO - 1912-1916',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Duração</h4>
+                        <p>Guerra do Contestado durou de 1912 a 1916, na região de fronteira entre Paraná e Santa Catarina.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💀 Vítimas</h4>
+                        <p>Mais de 20 mil sertanejos mortos, além de milhares de soldados do exército.</p>
+                    </div>
+                `
+            },
+            cronogreve: {
+                category: 'cronologia',
+                title: '⚙️ GREVE GERAL - 1917',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Quando?</h4>
+                        <p>Julho de 1917, em São Paulo.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>📊 Escala</h4>
+                        <p>Mais de 50 mil trabalhadores paralisaram as fábricas. Foi a maior greve da história brasileira até então.</p>
+                    </div>
+                `
+            },
+            cronotenentismo: {
+                category: 'cronologia',
+                title: '🎖️ 18 DO FORTE - 1922',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Data</h4>
+                        <p>5 de julho de 1922, Forte de Copacabana, Rio de Janeiro.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🎯 Significado</h4>
+                        <p>Marcou o início do tenentismo, movimento que questionou as oligarquias e buscou modernizar o Brasil.</p>
+                    </div>
+                `
+            },
+            cronoprestes: {
+                category: 'cronologia',
+                title: '🚶 COLUNA PRESTES - 1924-1927',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Período</h4>
+                        <p>De junho de 1924 a fevereiro de 1927, totalizando quase 3 anos de marcha.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>🗺️ Percurso</h4>
+                        <p>Passou por 13 estados brasileiros, desde o Rio Grande do Sul até o Maranhão.</p>
+                    </div>
+                `
+            },
+            rev1930: {
+                category: 'cronologia',
+                title: '🏁 REVOLUÇÃO DE 1930',
+                content: `
+                    <div class="modal-section">
+                        <h4>📅 Data</h4>
+                        <p>3 de outubro de 1930. Fim da Primeira República.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>👤 Resultado</h4>
+                        <p>Getúlio Vargas assumiu o poder, iniciando a Era Vargas (1930-1945). O Brasil passou por profundas transformações políticas e sociais.</p>
+                    </div>
+                    <div class="modal-dica">
+                        <strong>💡 Dica ENEM:</strong>
+                        <p>A Revolução de 1930 foi um marco. Questões abordam as causas (crise do café, quebra do Café com Leite, tenentismo) e as consequências (Estado Novo, reformas trabalhistas).</p>
+                    </div>
+                    <span class="enem-tag">🎯 Fim da Primeira República!</span>
+                `
+            },
+            macete1: {
+                category: 'dicas',
+                title: '🎯 MACETE: Líder religioso no sertão',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Messianismo</strong> - Movimentos como Canudos (BA) e Contestado (PR/SC).</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Por quê?</h4>
+                        <p>O messianismo era uma resposta religiosa à miséria do sertão. Líderes como Antônio Conselheiro e José Maria prometiam a salvação e uma "terra sem males".</p>
+                    </div>
+                `
+            },
+            macete2: {
+                category: 'dicas',
+                title: '🎯 MACETE: Vacinação obrigatória',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Revolta da Vacina (1904)</strong> - Rio de Janeiro, governo Rodrigues Alves.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Contexto</h4>
+                        <p>Oswaldo Cruz tentou imunizar a população contra a varíola, mas a obrigatoriedade gerou revolta popular. O governo teve que recuar.</p>
+                    </div>
+                `
+            },
+            macete3: {
+                category: 'dicas',
+                title: '🎯 MACETE: Marinheiros negros',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Revolta da Chibata (1910)</strong> - Liderada por João Cândido.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Importância</h4>
+                        <p>Foi uma luta contra o racismo institucional e os castigos corporais na Marinha. Primeiro grande movimento negro organizado no Brasil republicano.</p>
+                    </div>
+                `
+            },
+            macete4: {
+                category: 'dicas',
+                title: '🎯 MACETE: 18 oficiais / Forte',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Tenentismo (1922)</strong> - 18 do Forte de Copacabana.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Significado</h4>
+                        <p>Início do movimento tenentista, jovens oficiais que questionavam as oligarquias e defendiam reformas políticas.</p>
+                    </div>
+                `
+            },
+            macete5: {
+                category: 'dicas',
+                title: '🎯 MACETE: 25 mil km / Marcha',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Coluna Prestes (1924-1927)</strong> - Marcha de 25.000 km pelo interior do Brasil.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Curiosidade</h4>
+                        <p>Luís Carlos Prestes liderou a marcha que durou quase 3 anos, passando por 13 estados. Virou um mito nacional.</p>
+                    </div>
+                `
+            },
+            macete6: {
+                category: 'dicas',
+                title: '🎯 MACETE: 8 horas / Greve SP',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Greve Geral de 1917</strong> - São Paulo, primeira grande greve brasileira.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Conquistas</h4>
+                        <p>Os trabalhadores conquistaram a jornada de 8 horas em algumas fábricas e maior visibilidade para o movimento operário.</p>
+                    </div>
+                `
+            },
+            macete7: {
+                category: 'dicas',
+                title: '🎯 MACETE: Voto de Cabresto',
+                content: `
+                    <div class="modal-section">
+                        <h4>✅ Resposta</h4>
+                        <p><strong>Coronelismo</strong> - Sistema político baseado no controle do voto pelos coronéis.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>💡 Como funcionava?</h4>
+                        <p>Os coronéis (chefes locais) controlavam como seus empregados votavam através de ameaças, compra de votos e violência.</p>
+                    </div>
+                `
+            }
+        };
+
+        function openModal(id) {
+            const data = modalData[id];
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalBody').innerHTML = data.content;
+            document.getElementById('modalHeader').className = 'modal-header ' + data.category;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.id === 'modalOverlay') {
+                document.getElementById('modalOverlay').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
