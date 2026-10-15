@@ -34,13 +34,13 @@
       </div>
       <div>
         <h1 class="text-base font-bold tracking-wide">9XTREAM / IBO WEB</h1>
-        <p id="statusHeader" class="text-[11px] text-emerald-400">Conectado: 23260844</p>
+        <p id="statusHeader" class="text-[11px] text-emerald-400">Lista M3U Ativa</p>
       </div>
     </div>
 
     <div class="flex items-center gap-2">
       <button onclick="openLoginModal()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold flex items-center gap-1.5">
-        <i class="fa-solid fa-plug"></i> Configurar / Arquivo M3U
+        <i class="fa-solid fa-plug"></i> Trocar / Ficheiro M3U
       </button>
     </div>
 
@@ -115,65 +115,39 @@
         </button>
         <span id="sectionBadge" class="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-600 font-bold uppercase"></span>
       </div>
-      <!-- Lista horizontal no telemóvel / vertical no PC -->
       <div id="categoryList" class="flex md:flex-col overflow-x-auto md:overflow-y-auto p-2 gap-1.5"></div>
     </aside>
 
     <div class="flex-1 overflow-y-auto p-4">
       <div id="loadingCatalog" class="hidden text-center py-16 text-indigo-400">
         <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i>
-        <p id="loadingStepText" class="text-xs">A conectar ao servidor via Ponte HTTPS...</p>
+        <p class="text-xs">A carregar conteúdo...</p>
       </div>
       <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
     </div>
   </section>
 
-  <!-- MODAL DE EPISÓDIOS -->
-  <div id="seriesModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-40">
-    <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-xl w-full max-h-[80vh] flex flex-col overflow-hidden">
-      <div class="p-4 border-b border-white/10 flex items-center justify-between">
-        <h3 id="seriesModalTitle" class="text-sm font-bold truncate">Episódios</h3>
-        <button onclick="closeSeriesModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div id="seriesEpisodesList" class="p-3 overflow-y-auto space-y-2 flex-1"></div>
-    </div>
-  </div>
-
-  <!-- MODAL DE CONFIGURAÇÃO + UPLOAD DIRETO DO ARQUIVO M3U -->
+  <!-- MODAL DE CONFIGURAÇÃO + UPLOAD M3U -->
   <div id="loginModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-md w-full p-5 shadow-2xl">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-base font-bold">Conectar Lista M3U / Xtream</h3>
+        <h3 class="text-base font-bold">Carregar Ficheiro .M3U</h3>
         <button onclick="closeLoginModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
-      <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Opção 1: Link Direto Xtream / M3U</label>
+      <p class="text-[11px] text-slate-300 mb-3">
+        Selecione o ficheiro <code>.m3u</code> que descarregou do seu link no Google Chrome para carregar tudo sem falhas:
+      </p>
+
       <input
-        id="m3uLinkInput"
-        type="text"
-        value="http://tvs.shamol.site/get.php?username=23260844&password=K788b7577m&type=m3u_plus&output=ts"
-        class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/15 text-xs mb-3"
+        id="localM3uFile"
+        type="file"
+        onchange="loadLocalM3uFile(event)"
+        class="w-full text-xs text-slate-300 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white"
       />
 
-      <div class="my-3 border-t border-white/10 pt-3">
-        <label class="block text-[11px] font-semibold uppercase text-emerald-400 mb-1">
-          Opção 2 (100% Sem Erro no iPhone): Escolher Ficheiro .M3U
-        </label>
-        <p class="text-[11px] text-slate-400 mb-2">
-          Se o servidor bloquear a leitura online, cole o seu link numa aba do Chrome para descarregar o ficheiro <code>.m3u</code> no iPhone e selecione-o aqui:
-        </p>
-        <input
-          id="localM3uFile"
-          type="file"
-          accept=".m3u,.m3u8,.txt"
-          onchange="loadLocalM3uFile(event)"
-          class="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white"
-        />
-      </div>
-
-      <div class="flex justify-end gap-2 mt-4">
+      <div class="flex justify-end gap-2 mt-5">
         <button onclick="closeLoginModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs">Fechar</button>
-        <button onclick="saveAndConnect()" class="px-4 py-2 rounded-xl bg-indigo-600 text-xs font-semibold">Salvar e Conectar</button>
       </div>
     </div>
   </div>
@@ -200,15 +174,7 @@
   </div>
 
   <script>
-    let serverConfig = {
-      host: 'http://tvs.shamol.site',
-      user: '23260844',
-      pass: 'K788b7577m'
-    };
-
-    let isLocalM3uMode = false;
     let localM3uItems = { live: [], vod: [], series: [] };
-
     let currentSection = 'live';
     let categoriesCache = [];
     let streamsCache = [];
@@ -217,7 +183,7 @@
     let hls = null;
 
     // BANCO OFFLINE (IndexedDB)
-    const DB_NAME = 'IBO_V3_OfflineDB';
+    const DB_NAME = 'IBO_V4_OfflineDB';
     const STORE_NAME = 'offline_videos';
     let db = null;
 
@@ -248,48 +214,7 @@
       document.getElementById('searchContainer').classList.add('hidden');
     }
 
-    function saveAndConnect() {
-      const rawUrl = document.getElementById('m3uLinkInput').value.trim();
-      try {
-        const parsed = new URL(rawUrl);
-        serverConfig.host = `${parsed.protocol}//${parsed.host}`;
-        serverConfig.user = parsed.searchParams.get('username') || '';
-        serverConfig.pass = parsed.searchParams.get('password') || '';
-        isLocalM3uMode = false;
-        document.getElementById('statusHeader').textContent = `Conectado: ${serverConfig.user} (${parsed.host})`;
-        closeLoginModal();
-      } catch (e) {
-        alert('URL inválida.');
-      }
-    }
-
-    // MULTI-PROXY AUTOMÁTICO: Tenta 4 rotas diferentes caso o servidor bloqueie o navegador
-    async function fetchWithMultiProxy(targetUrl) {
-      const proxies = [
-        (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-        (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-        (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-        (u) => u // Tentativa direta
-      ];
-
-      let lastErr = null;
-      for (let i = 0; i < proxies.length; i++) {
-        try {
-          document.getElementById('loadingStepText').textContent = `A conectar ao servidor (Rota ${i + 1}/4)...`;
-          const res = await fetch(proxies[i](targetUrl));
-          if (!res.ok) continue;
-          const data = await res.json();
-          if (Array.isArray(data) || (data && typeof data === 'object')) {
-            return data;
-          }
-        } catch (err) {
-          lastErr = err;
-        }
-      }
-      throw lastErr || new Error('Servidor bloqueou as rotas de proxy.');
-    }
-
-    // MODO FICHEIRO LOCAL .M3U (NUNCA FALHA NO IPHONE)
+    // PROCESSADOR INTELIGENTE DO FICHEIRO M3U
     async function loadLocalM3uFile(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -313,8 +238,9 @@
             category_id: groupMatch && groupMatch[1] ? groupMatch[1].trim() : 'Geral'
           };
         } else if (!line.startsWith('#') && currentMeta) {
-          const url = line;
+          let url = line;
           const lower = url.toLowerCase();
+          
           const itemObj = {
             stream_id: i,
             name: currentMeta.name,
@@ -328,24 +254,30 @@
           } else if (lower.includes('/movie/') || /\.(mp4|mkv|avi)(\?|$)/i.test(lower)) {
             localM3uItems.vod.push(itemObj);
           } else {
-            // Se terminar em .ts no canal ao vivo, converte para .m3u8 para o iPhone tocar
-            itemObj.direct_url = url.replace(/\.ts(\?.*)?$/i, '.m3u8');
+            // Converte automaticamente links de canais para formato HLS/m3u8 se necessário para o iPhone
+            if (!url.includes('.m3u8') && url.includes(':')) {
+              itemObj.direct_url = url.replace(/output=ts/g, 'output=m3u8');
+            }
             localM3uItems.live.push(itemObj);
           }
           currentMeta = null;
         }
       }
 
-      isLocalM3uMode = true;
-      document.getElementById('statusHeader').textContent = `Ficheiro M3U Carregado!`;
+      document.getElementById('statusHeader').textContent = `Lista Carregada com Sucesso!`;
       document.getElementById('badgeLive').textContent = `${localM3uItems.live.length} canais`;
       document.getElementById('badgeVod').textContent = `${localM3uItems.vod.length} filmes`;
-      document.getElementById('badgeSeries').textContent = `${localM3uItems.series.length} episódios`;
+      document.getElementById('badgeSeries').textContent = `${localM3uItems.series.length} séries`;
       closeLoginModal();
-      alert('Lista carregada com sucesso! Pode abrir TV Ao Vivo, Filmes ou Séries.');
+      alert(`Lista carregada! ${localM3uItems.live.length} canais e ${localM3uItems.vod.length} filmes prontos.`);
     }
 
-    async function openSection(section) {
+    function openSection(section) {
+      if (localM3uItems.live.length === 0 && localM3uItems.vod.length === 0) {
+        openLoginModal();
+        return;
+      }
+
       currentSection = section;
       selectedCategoryId = 'ALL';
       document.getElementById('searchInput').value = '';
@@ -362,52 +294,11 @@
         return;
       }
 
-      // Se o utilizador carregou o ficheiro .m3u diretamente
-      if (isLocalM3uMode) {
-        streamsCache = localM3uItems[section] || [];
-        const uniqueGroups = [...new Set(streamsCache.map(i => i.category_id))];
-        categoriesCache = uniqueGroups.map(g => ({ category_id: g, category_name: g }));
-        renderCategoriesSidebar();
-        renderGrid();
-        return;
-      }
-
-      const loader = document.getElementById('loadingCatalog');
-      const grid = document.getElementById('itemsGrid');
-      grid.innerHTML = '';
-      loader.classList.remove('hidden');
-
-      try {
-        const catAction = section === 'live' ? 'get_live_categories' : section === 'vod' ? 'get_vod_categories' : 'get_series_categories';
-        const streamAction = section === 'live' ? 'get_live_streams' : section === 'vod' ? 'get_vod_streams' : 'get_series';
-
-        const catUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.user}&password=${serverConfig.pass}&action=${catAction}`;
-        const streamUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.user}&password=${serverConfig.pass}&action=${streamAction}`;
-
-        const cats = await fetchWithMultiProxy(catUrl);
-        const streams = await fetchWithMultiProxy(streamUrl);
-
-        categoriesCache = Array.isArray(cats) ? cats : [];
-        streamsCache = Array.isArray(streams) ? streams : [];
-
-        renderCategoriesSidebar();
-        renderGrid();
-      } catch (err) {
-        grid.innerHTML = `
-          <div class="col-span-full bg-slate-900/90 border border-rose-500/30 rounded-2xl p-5 text-center my-6">
-            <p class="font-bold text-rose-400 text-sm mb-2">O servidor (${serverConfig.host}) bloqueou o acesso via Proxy Web.</p>
-            <p class="text-xs text-slate-300 mb-4">
-              Para funcionar 100% no iPhone sem depender de proxy:
-              <br/>1. Cole o seu link M3U numa nova aba do Chrome (ele vai descarregar o ficheiro <b>get.php / .m3u</b>).
-              <br/>2. Clique no botão abaixo e selecione esse ficheiro descarregado!
-            </p>
-            <button onclick="openLoginModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold">
-              Selecionar Ficheiro .M3U Descarregado
-            </button>
-          </div>`;
-      } finally {
-        loader.classList.add('hidden');
-      }
+      streamsCache = localM3uItems[section] || [];
+      const uniqueGroups = [...new Set(streamsCache.map(i => i.category_id))];
+      categoriesCache = uniqueGroups.map(g => ({ category_id: g, category_name: g }));
+      renderCategoriesSidebar();
+      renderGrid();
     }
 
     function renderCategoriesSidebar() {
@@ -415,10 +306,10 @@
       container.innerHTML = '';
 
       const allBtn = document.createElement('button');
-      allBtn.className = ` shrink-0 px-3 py-2 rounded-xl text-xs font-semibold ${
+      allBtn.className = `shrink-0 px-3 py-2 rounded-xl text-xs font-semibold ${
         selectedCategoryId === 'ALL' ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-300'
       }`;
-      allBtn.textContent = `TODOS (${streamsCache.length || 0})`;
+      allBtn.textContent = `TODOS (${streamsCache.length})`;
       allBtn.onclick = () => {
         selectedCategoryId = 'ALL';
         renderCategoriesSidebar();
@@ -449,13 +340,13 @@
       }
 
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      let list = Array.isArray(streamsCache) ? streamsCache : [];
+      let list = streamsCache;
 
       if (selectedCategoryId !== 'ALL') {
         list = list.filter(item => String(item.category_id) === selectedCategoryId);
       }
       if (query) {
-        list = list.filter(item => (item.name || item.title || '').toLowerCase().includes(query));
+        list = list.filter(item => (item.name || '').toLowerCase().includes(query));
       }
 
       const displayList = list.slice(0, 120);
@@ -463,51 +354,25 @@
       grid.innerHTML = '';
 
       if (displayList.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum canal ou filme encontrado.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum resultado encontrado.</p>`;
         return;
       }
 
       displayList.forEach(item => {
-        const title = item.name || item.title || 'Sem título';
-        const icon = item.stream_icon || item.cover || '';
+        const title = item.name || 'Sem título';
+        const icon = item.stream_icon || '';
         const card = document.createElement('div');
         card.className = 'ibo-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between';
 
         card.onclick = () => {
-          if (item.direct_url) {
-            openVideoPlayer({
-              id: `local_${item.stream_id}`,
-              title: title,
-              subtitle: String(item.category_id),
-              url: item.direct_url,
-              type: currentSection,
-              cover: icon
-            });
-            return;
-          }
-
-          if (currentSection === 'live') {
-            const liveUrl = `${serverConfig.host}/live/${serverConfig.user}/${serverConfig.pass}/${item.stream_id}.m3u8`;
-            openVideoPlayer({
-              id: `live_${item.stream_id}`,
-              title: title,
-              subtitle: 'Canal Ao Vivo',
-              url: liveUrl,
-              type: 'live',
-              cover: icon
-            });
-          } else if (currentSection === 'vod') {
-            const ext = item.container_extension || 'mp4';
-            const movieUrl = `${serverConfig.host}/movie/${serverConfig.user}/${serverConfig.pass}/${item.stream_id}.${ext}`;
-            openVideoPlayer({
-              id: `vod_${item.stream_id}`,
-              title: title,
-              subtitle: `Filme`,
-              url: movieUrl,
-              type: 'vod',
-              cover: icon
-            });
-          }
+          openVideoPlayer({
+            id: `item_${item.stream_id}`,
+            title: title,
+            subtitle: String(item.category_id),
+            url: item.direct_url,
+            type: currentSection,
+            cover: icon
+          });
         };
 
         card.innerHTML = `
@@ -560,12 +425,15 @@
       document.getElementById('playerModal').classList.add('hidden');
     }
 
+    // SALVAMENTO OFFLINE SEGURO PARA O IPHONE
     async function downloadCurrentForOffline() {
       if (!currentPlayingData || !db) return;
       const btnText = document.getElementById('downloadBtnText');
       try {
-        btnText.textContent = 'A guardar...';
-        const response = await fetch(currentPlayingData.url);
+        btnText.textContent = 'A descarregar para o telemóvel...';
+        const response = await fetch(currentPlayingData.url, { mode: 'cors' });
+        if (!response.ok) throw new Error('Bloqueio do servidor');
+        
         const blob = await response.blob();
         const tx = db.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).put({
@@ -575,11 +443,12 @@
           blob: blob
         });
         tx.oncomplete = () => {
-          btnText.textContent = 'Guardado!';
+          btnText.textContent = 'Guardado Offline com Sucesso!';
           updateOfflineBadge();
         };
       } catch (e) {
-        alert('O servidor bloqueou o download offline direto deste vídeo.');
+        // Fallback inteligente para servidores restritos de IPTV
+        alert('Este servidor protege o link direto. Dica: Pode abrir o filme e utilizar o leitor nativo do iOS para reproduzir sem interrupções.');
         btnText.textContent = 'Guardar Offline';
       }
     }
@@ -592,7 +461,7 @@
       req.onsuccess = () => {
         const items = req.result;
         if (items.length === 0) {
-          grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum vídeo guardado offline.</p>`;
+          grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum vídeo guardado offline no navegador.</p>`;
           return;
         }
         items.forEach(item => {
@@ -601,7 +470,7 @@
           card.innerHTML = `
             <div onclick="playFromOfflineDB('${item.id}')" class="cursor-pointer mb-2">
               <h4 class="text-xs font-bold">${item.title}</h4>
-              <p class="text-[10px] text-emerald-400 mt-1">Pronto para assistir sem internet</p>
+              <p class="text-[10px] text-emerald-400 mt-1">Pronto para ver sem internet</p>
             </div>
             <button onclick="removeOfflineItem('${item.id}')" class="w-full py-1 bg-rose-900/60 rounded text-[10px]">Apagar</button>
           `;
