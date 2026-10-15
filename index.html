@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IBO Player Web - Xtream & M3U</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>9XTREAM / IBO WEB PRO</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -11,272 +11,236 @@
     body {
       background: radial-gradient(circle at top right, #1e1b4b, #090a0f 70%);
       color: #ffffff;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     .ibo-card {
-      transition: all 0.22s ease;
-      background: linear-gradient(145deg, rgba(30,41,59,0.88), rgba(15,23,42,0.96));
+      transition: all 0.2s ease;
+      background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,0.98));
       border: 1px solid rgba(255,255,255,0.08);
     }
-    .ibo-card:hover {
-      transform: translateY(-4px) scale(1.015);
+    .ibo-card:active {
+      transform: scale(0.97);
       border-color: #6366f1;
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
     }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
   <!-- TOPBAR -->
-  <header class="flex flex-wrap items-center justify-between px-6 py-4 bg-slate-950/85 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 gap-3">
+  <header class="flex flex-wrap items-center justify-between px-4 py-3.5 bg-slate-950/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 gap-3">
     <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-        <i class="fa-solid fa-play text-white text-lg"></i>
+        <i class="fa-solid fa-play text-white text-base"></i>
       </div>
       <div>
-        <h1 class="text-lg font-bold tracking-wide">9XTREAM / IBO WEB</h1>
-        <p id="statusHeader" class="text-xs text-emerald-400">Pronto para conectar</p>
-      </div>
-    </div>
-
-    <!-- Barra de Pesquisa -->
-    <div id="searchContainer" class="hidden flex-1 max-w-md mx-4">
-      <div class="relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400"></i>
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="Pesquisar nome do canal, filme ou série..."
-          oninput="renderGrid()"
-          class="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900 border border-white/10 text-sm focus:outline-none focus:border-indigo-500"
-        />
+        <h1 class="text-base font-bold tracking-wide">9XTREAM / IBO WEB</h1>
+        <p id="statusHeader" class="text-[11px] text-emerald-400">Conectado: 23260844</p>
       </div>
     </div>
 
     <div class="flex items-center gap-2">
-      <button onclick="openLoginModal()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
-        <i class="fa-solid fa-plug"></i> Configurar Link M3U
+      <button onclick="openLoginModal()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold flex items-center gap-1.5">
+        <i class="fa-solid fa-plug"></i> Configurar / Arquivo M3U
       </button>
+    </div>
+
+    <!-- Barra de Pesquisa -->
+    <div id="searchContainer" class="hidden w-full mt-1">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-xs"></i>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Pesquisar canal, filme ou série..."
+          oninput="renderGrid()"
+          class="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-white/10 text-xs focus:outline-none focus:border-indigo-500"
+        />
+      </div>
     </div>
   </header>
 
-  <!-- DASHBOARD ESTILO IBO PLAYER / VU PLAYER PRO -->
-  <main id="dashboardView" class="flex-1 flex flex-col justify-center items-center p-6">
-    <div class="max-w-5xl w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <!-- MENU INICIAL -->
+  <main id="dashboardView" class="flex-1 flex flex-col justify-center items-center p-4">
+    <div class="max-w-4xl w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
       
-      <div onclick="openSection('live')" class="ibo-card rounded-2xl p-6 cursor-pointer flex flex-col justify-between h-56 relative overflow-hidden group">
-        <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 text-2xl">
+      <div onclick="openSection('live')" class="ibo-card rounded-2xl p-5 cursor-pointer flex flex-col justify-between h-44 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 text-xl">
           <i class="fa-solid fa-satellite-dish"></i>
         </div>
         <div>
-          <h2 class="text-2xl font-bold">TV Ao Vivo</h2>
-          <p class="text-xs text-slate-400 mt-1">Canais em tempo real</p>
+          <h2 class="text-lg font-bold">TV Ao Vivo</h2>
+          <p id="badgeLive" class="text-[11px] text-slate-400">Canais Online</p>
         </div>
-        <i class="fa-solid fa-tv absolute -right-4 -bottom-4 text-8xl text-white/5 group-hover:text-rose-500/15 transition"></i>
       </div>
 
-      <div onclick="openSection('vod')" class="ibo-card rounded-2xl p-6 cursor-pointer flex flex-col justify-between h-56 relative overflow-hidden group">
-        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-2xl">
+      <div onclick="openSection('vod')" class="ibo-card rounded-2xl p-5 cursor-pointer flex flex-col justify-between h-44 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl">
           <i class="fa-solid fa-film"></i>
         </div>
         <div>
-          <h2 class="text-2xl font-bold">Filmes</h2>
-          <p class="text-xs text-slate-400 mt-1">Catálogo Cinema & VOD</p>
+          <h2 class="text-lg font-bold">Filmes</h2>
+          <p id="badgeVod" class="text-[11px] text-slate-400">Cinema & VOD</p>
         </div>
-        <i class="fa-solid fa-clapperboard absolute -right-4 -bottom-4 text-8xl text-white/5 group-hover:text-amber-500/15 transition"></i>
       </div>
 
-      <div onclick="openSection('series')" class="ibo-card rounded-2xl p-6 cursor-pointer flex flex-col justify-between h-56 relative overflow-hidden group">
-        <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+      <div onclick="openSection('series')" class="ibo-card rounded-2xl p-5 cursor-pointer flex flex-col justify-between h-44 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl">
           <i class="fa-solid fa-layer-group"></i>
         </div>
         <div>
-          <h2 class="text-2xl font-bold">Séries</h2>
-          <p class="text-xs text-slate-400 mt-1">Temporadas e Episódios</p>
+          <h2 class="text-lg font-bold">Séries</h2>
+          <p id="badgeSeries" class="text-[11px] text-slate-400">Temporadas</p>
         </div>
-        <i class="fa-solid fa-photo-film absolute -right-4 -bottom-4 text-8xl text-white/5 group-hover:text-emerald-500/15 transition"></i>
       </div>
 
-      <div onclick="openSection('offline')" class="ibo-card rounded-2xl p-6 cursor-pointer flex flex-col justify-between h-56 relative overflow-hidden group">
-        <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-2xl">
+      <div onclick="openSection('offline')" class="ibo-card rounded-2xl p-5 cursor-pointer flex flex-col justify-between h-44 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xl">
           <i class="fa-solid fa-cloud-arrow-down"></i>
         </div>
         <div>
-          <h2 class="text-2xl font-bold">Meus Offline</h2>
-          <p id="offlineCounter" class="text-xs text-indigo-300 mt-1">0 salvos no navegador</p>
+          <h2 class="text-lg font-bold">Offline</h2>
+          <p id="offlineCounter" class="text-[11px] text-indigo-300">0 guardados</p>
         </div>
-        <i class="fa-solid fa-hard-drive absolute -right-4 -bottom-4 text-8xl text-white/5 group-hover:text-indigo-500/15 transition"></i>
       </div>
 
     </div>
   </main>
 
-  <!-- VISÃO DE CATÁLOGO (CATEGORIAS + CONTEÚDO) -->
-  <section id="catalogView" class="hidden flex-1 flex flex-col md:flex-row overflow-hidden h-[calc(100vh-73px)]">
-    <!-- Lateral de Categorias -->
-    <aside class="w-full md:w-64 bg-slate-950/90 border-b md:border-b-0 md:border-r border-white/10 flex flex-col max-h-48 md:max-h-full">
-      <div class="p-3.5 border-b border-white/10 flex items-center justify-between">
-        <button onclick="showDashboard()" class="text-xs sm:text-sm text-slate-300 hover:text-white flex items-center gap-2 font-semibold">
+  <!-- CATÁLOGO -->
+  <section id="catalogView" class="hidden flex-1 flex flex-col md:flex-row overflow-hidden">
+    <aside class="w-full md:w-60 bg-slate-950/90 border-b md:border-r border-white/10 flex flex-col">
+      <div class="p-3 border-b border-white/10 flex items-center justify-between">
+        <button onclick="showDashboard()" class="text-xs text-slate-300 flex items-center gap-1.5 font-semibold">
           <i class="fa-solid fa-arrow-left"></i> Menu Inicial
         </button>
-        <span id="sectionBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-600 font-bold uppercase"></span>
+        <span id="sectionBadge" class="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-600 font-bold uppercase"></span>
       </div>
-      <div id="categoryList" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+      <!-- Lista horizontal no telemóvel / vertical no PC -->
+      <div id="categoryList" class="flex md:flex-col overflow-x-auto md:overflow-y-auto p-2 gap-1.5"></div>
     </aside>
 
-    <!-- Grade Principal -->
-    <div class="flex-1 overflow-y-auto p-5">
-      <div id="loadingCatalog" class="hidden text-center py-20 text-indigo-400">
-        <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3"></i>
-        <p class="text-sm">Carregando catálogo do servidor...</p>
+    <div class="flex-1 overflow-y-auto p-4">
+      <div id="loadingCatalog" class="hidden text-center py-16 text-indigo-400">
+        <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i>
+        <p id="loadingStepText" class="text-xs">A conectar ao servidor via Ponte HTTPS...</p>
       </div>
-      <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"></div>
+      <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
     </div>
   </section>
 
-  <!-- MODAL DE EPISÓDIOS DE SÉRIES -->
+  <!-- MODAL DE EPISÓDIOS -->
   <div id="seriesModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-40">
-    <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+    <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-xl w-full max-h-[80vh] flex flex-col overflow-hidden">
       <div class="p-4 border-b border-white/10 flex items-center justify-between">
-        <h3 id="seriesModalTitle" class="text-lg font-bold truncate">Episódios da Série</h3>
-        <button onclick="closeSeriesModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <h3 id="seriesModalTitle" class="text-sm font-bold truncate">Episódios</h3>
+        <button onclick="closeSeriesModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
-      <div id="seriesEpisodesList" class="p-4 overflow-y-auto space-y-2 flex-1"></div>
+      <div id="seriesEpisodesList" class="p-3 overflow-y-auto space-y-2 flex-1"></div>
     </div>
   </div>
 
-  <!-- MODAL DE CONFIGURAÇÃO DO LINK M3U -->
-  <div id="loginModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold">Conectar Lista M3U / Xtream</h3>
-        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+  <!-- MODAL DE CONFIGURAÇÃO + UPLOAD DIRETO DO ARQUIVO M3U -->
+  <div id="loginModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-white/15 rounded-2xl max-w-md w-full p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-base font-bold">Conectar Lista M3U / Xtream</h3>
+        <button onclick="closeLoginModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
-      <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Seu Link M3U Completo</label>
+      <label class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Opção 1: Link Direto Xtream / M3U</label>
       <input
         id="m3uLinkInput"
         type="text"
         value="http://tvs.shamol.site/get.php?username=23260844&password=K788b7577m&type=m3u_plus&output=ts"
-        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/15 text-xs sm:text-sm mb-4 focus:outline-none focus:border-indigo-500"
+        class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/15 text-xs mb-3"
       />
 
-      <div class="flex items-center gap-2 mb-5">
-        <input type="checkbox" id="corsProxyCheck" class="rounded bg-slate-950" />
-        <label for="corsProxyCheck" class="text-xs text-slate-300">
-          Ativar Proxy CORS (Marque se o navegador bloquear a listagem de canais)
+      <div class="my-3 border-t border-white/10 pt-3">
+        <label class="block text-[11px] font-semibold uppercase text-emerald-400 mb-1">
+          Opção 2 (100% Sem Erro no iPhone): Escolher Ficheiro .M3U
         </label>
+        <p class="text-[11px] text-slate-400 mb-2">
+          Se o servidor bloquear a leitura online, cole o seu link numa aba do Chrome para descarregar o ficheiro <code>.m3u</code> no iPhone e selecione-o aqui:
+        </p>
+        <input
+          id="localM3uFile"
+          type="file"
+          accept=".m3u,.m3u8,.txt"
+          onchange="loadLocalM3uFile(event)"
+          class="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white"
+        />
       </div>
 
-      <div class="flex justify-end gap-3">
-        <button onclick="closeLoginModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs sm:text-sm">Fechar</button>
-        <button onclick="saveAndParseCredentials()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-semibold">
-          Salvar e Conectar
-        </button>
+      <div class="flex justify-end gap-2 mt-4">
+        <button onclick="closeLoginModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs">Fechar</button>
+        <button onclick="saveAndConnect()" class="px-4 py-2 rounded-xl bg-indigo-600 text-xs font-semibold">Salvar e Conectar</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DO PLAYER DE VÍDEO -->
-  <div id="playerModal" class="hidden fixed inset-0 bg-black/95 flex flex-col justify-center items-center p-4 z-50">
-    <div class="w-full max-w-5xl flex flex-wrap items-center justify-between gap-2 mb-3">
-      <div>
-        <h3 id="playerTitle" class="text-base sm:text-lg font-bold">Reproduzindo</h3>
-        <p id="playerSubtitle" class="text-xs text-slate-400"></p>
+  <!-- MODAL DO PLAYER -->
+  <div id="playerModal" class="hidden fixed inset-0 bg-black/95 flex flex-col justify-center items-center p-3 z-50">
+    <div class="w-full max-w-4xl flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div class="max-w-[60%]">
+        <h3 id="playerTitle" class="text-sm font-bold truncate">A reproduzir</h3>
+        <p id="playerSubtitle" class="text-[11px] text-slate-400 truncate"></p>
       </div>
       <div class="flex items-center gap-2">
-        <!-- Botão de Baixar p/ Offline Interno -->
-        <button id="btnDownloadOffline" onclick="downloadCurrentForOffline()" class="hidden px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold flex items-center gap-2 transition">
+        <button id="btnDownloadOffline" onclick="downloadCurrentForOffline()" class="hidden px-3 py-2 rounded-xl bg-emerald-600 text-xs font-semibold flex items-center gap-1.5">
           <i class="fa-solid fa-cloud-arrow-down"></i>
-          <span id="downloadBtnText">Baixar p/ Assistir Offline</span>
+          <span id="downloadBtnText">Guardar Offline</span>
         </button>
-        <button onclick="closePlayer()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-rose-600 text-xs font-semibold">
-          <i class="fa-solid fa-xmark mr-1"></i> Fechar
-        </button>
+        <button onclick="closePlayer()" class="px-3 py-2 rounded-xl bg-slate-800 text-xs font-semibold">Fechar</button>
       </div>
     </div>
 
-    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl aspect-video relative">
+    <div class="w-full max-w-4xl bg-black rounded-2xl overflow-hidden border border-white/10 aspect-video">
       <video id="videoPlayer" controls autoplay playsinline class="w-full h-full"></video>
     </div>
   </div>
 
   <script>
-    // EXTRAÇÃO AUTOMÁTICA DOS DADOS DO SEU LINK M3U
     let serverConfig = {
       host: 'http://tvs.shamol.site',
       user: '23260844',
-      pass: 'K788b7577m',
-      useProxy: false
+      pass: 'K788b7577m'
     };
 
-    let currentSection = 'live'; // 'live' | 'vod' | 'series' | 'offline'
+    let isLocalM3uMode = false;
+    let localM3uItems = { live: [], vod: [], series: [] };
+
+    let currentSection = 'live';
     let categoriesCache = [];
     let streamsCache = [];
     let selectedCategoryId = 'ALL';
     let currentPlayingData = null;
     let hls = null;
 
-    // BANCO DE DADOS INTERNO DO NAVEGADOR PARA MODO OFFLINE (IndexedDB)
-    const DB_NAME = 'IBO_Xtream_OfflineDB';
+    // BANCO OFFLINE (IndexedDB)
+    const DB_NAME = 'IBO_V3_OfflineDB';
     const STORE_NAME = 'offline_videos';
     let db = null;
 
-    function initDB() {
-      const req = indexedDB.open(DB_NAME, 1);
-      req.onupgradeneeded = (e) => {
-        const database = e.target.result;
-        if (!database.objectStoreNames.contains(STORE_NAME)) {
-          database.createObjectStore(STORE_NAME, { keyPath: 'id' });
-        }
-      };
-      req.onsuccess = (e) => {
-        db = e.target.result;
-        updateOfflineBadge();
-      };
-    }
-    initDB();
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains(STORE_NAME)) d.createObjectStore(STORE_NAME, { keyPath: 'id' });
+    };
+    req.onsuccess = (e) => {
+      db = e.target.result;
+      updateOfflineBadge();
+    };
 
     function updateOfflineBadge() {
       if (!db) return;
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const req = tx.objectStore(STORE_NAME).count();
-      req.onsuccess = () => {
-        document.getElementById('offlineCounter').textContent = `${req.result} vídeo(s) salvo(s) offline`;
+      const r = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).count();
+      r.onsuccess = () => {
+        document.getElementById('offlineCounter').textContent = `${r.result} guardado(s)`;
       };
     }
 
-    // LER O LINK M3U E SEPARAR HOST, USUÁRIO E SENHA AUTOMATICAMENTE
-    function saveAndParseCredentials() {
-      const rawUrl = document.getElementById('m3uLinkInput').value.trim();
-      serverConfig.useProxy = document.getElementById('corsProxyCheck').checked;
-
-      try {
-        const parsed = new URL(rawUrl);
-        serverConfig.host = `${parsed.protocol}//${parsed.host}`;
-        serverConfig.user = parsed.searchParams.get('username') || '';
-        serverConfig.pass = parsed.searchParams.get('password') || '';
-
-        document.getElementById('statusHeader').textContent = `Conectado: ${serverConfig.user} (${parsed.host})`;
-        closeLoginModal();
-      } catch (e) {
-        alert('Formato de link inválido. Verifique se começa com http://');
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      saveAndParseCredentials();
-    });
-
-    function openLoginModal() {
-      document.getElementById('loginModal').classList.remove('hidden');
-    }
-    function closeLoginModal() {
-      document.getElementById('loginModal').classList.add('hidden');
-    }
+    function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+    function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
 
     function showDashboard() {
       document.getElementById('dashboardView').classList.remove('hidden');
@@ -284,18 +248,109 @@
       document.getElementById('searchContainer').classList.add('hidden');
     }
 
-    function buildApiUrl(action, extraParams = '') {
-      const raw = `${serverConfig.host}/player_api.php?username=${serverConfig.user}&password=${serverConfig.pass}&action=${action}${extraParams}`;
-      return serverConfig.useProxy ? `https://corsproxy.io/?${encodeURIComponent(raw)}` : raw;
+    function saveAndConnect() {
+      const rawUrl = document.getElementById('m3uLinkInput').value.trim();
+      try {
+        const parsed = new URL(rawUrl);
+        serverConfig.host = `${parsed.protocol}//${parsed.host}`;
+        serverConfig.user = parsed.searchParams.get('username') || '';
+        serverConfig.pass = parsed.searchParams.get('password') || '';
+        isLocalM3uMode = false;
+        document.getElementById('statusHeader').textContent = `Conectado: ${serverConfig.user} (${parsed.host})`;
+        closeLoginModal();
+      } catch (e) {
+        alert('URL inválida.');
+      }
     }
 
-    // ABRIR SEÇÃO (AO VIVO, FILMES, SÉRIES OU OFFLINE)
+    // MULTI-PROXY AUTOMÁTICO: Tenta 4 rotas diferentes caso o servidor bloqueie o navegador
+    async function fetchWithMultiProxy(targetUrl) {
+      const proxies = [
+        (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+        (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+        (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+        (u) => u // Tentativa direta
+      ];
+
+      let lastErr = null;
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          document.getElementById('loadingStepText').textContent = `A conectar ao servidor (Rota ${i + 1}/4)...`;
+          const res = await fetch(proxies[i](targetUrl));
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (Array.isArray(data) || (data && typeof data === 'object')) {
+            return data;
+          }
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error('Servidor bloqueou as rotas de proxy.');
+    }
+
+    // MODO FICHEIRO LOCAL .M3U (NUNCA FALHA NO IPHONE)
+    async function loadLocalM3uFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const text = await file.text();
+      const lines = text.split(/\r?\n/);
+      localM3uItems = { live: [], vod: [], series: [] };
+      let currentMeta = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        if (line.startsWith('#EXTINF:')) {
+          const logoMatch = line.match(/tvg-logo="([^"]*)"/i);
+          const groupMatch = line.match(/group-title="([^"]*)"/i);
+          const title = line.split(',').pop().trim() || 'Sem Título';
+          currentMeta = {
+            name: title,
+            stream_icon: logoMatch ? logoMatch[1] : '',
+            category_id: groupMatch && groupMatch[1] ? groupMatch[1].trim() : 'Geral'
+          };
+        } else if (!line.startsWith('#') && currentMeta) {
+          const url = line;
+          const lower = url.toLowerCase();
+          const itemObj = {
+            stream_id: i,
+            name: currentMeta.name,
+            stream_icon: currentMeta.stream_icon,
+            category_id: currentMeta.category_id,
+            direct_url: url
+          };
+
+          if (lower.includes('/series/') || /s\d{1,2}\s*e\d{1,2}/i.test(currentMeta.name)) {
+            localM3uItems.series.push(itemObj);
+          } else if (lower.includes('/movie/') || /\.(mp4|mkv|avi)(\?|$)/i.test(lower)) {
+            localM3uItems.vod.push(itemObj);
+          } else {
+            // Se terminar em .ts no canal ao vivo, converte para .m3u8 para o iPhone tocar
+            itemObj.direct_url = url.replace(/\.ts(\?.*)?$/i, '.m3u8');
+            localM3uItems.live.push(itemObj);
+          }
+          currentMeta = null;
+        }
+      }
+
+      isLocalM3uMode = true;
+      document.getElementById('statusHeader').textContent = `Ficheiro M3U Carregado!`;
+      document.getElementById('badgeLive').textContent = `${localM3uItems.live.length} canais`;
+      document.getElementById('badgeVod').textContent = `${localM3uItems.vod.length} filmes`;
+      document.getElementById('badgeSeries').textContent = `${localM3uItems.series.length} episódios`;
+      closeLoginModal();
+      alert('Lista carregada com sucesso! Pode abrir TV Ao Vivo, Filmes ou Séries.');
+    }
+
     async function openSection(section) {
       currentSection = section;
       selectedCategoryId = 'ALL';
       document.getElementById('searchInput').value = '';
 
-      const names = { live: 'TV Ao Vivo', vod: 'Filmes', series: 'Séries', offline: 'Salvos Offline' };
+      const names = { live: 'TV Ao Vivo', vod: 'Filmes', series: 'Séries', offline: 'Offline' };
       document.getElementById('sectionBadge').textContent = names[section];
 
       document.getElementById('dashboardView').classList.add('hidden');
@@ -304,6 +359,16 @@
 
       if (section === 'offline') {
         renderOfflineCatalog();
+        return;
+      }
+
+      // Se o utilizador carregou o ficheiro .m3u diretamente
+      if (isLocalM3uMode) {
+        streamsCache = localM3uItems[section] || [];
+        const uniqueGroups = [...new Set(streamsCache.map(i => i.category_id))];
+        categoriesCache = uniqueGroups.map(g => ({ category_id: g, category_name: g }));
+        renderCategoriesSidebar();
+        renderGrid();
         return;
       }
 
@@ -316,23 +381,29 @@
         const catAction = section === 'live' ? 'get_live_categories' : section === 'vod' ? 'get_vod_categories' : 'get_series_categories';
         const streamAction = section === 'live' ? 'get_live_streams' : section === 'vod' ? 'get_vod_streams' : 'get_series';
 
-        const [catRes, streamRes] = await Promise.all([
-          fetch(buildApiUrl(catAction)),
-          fetch(buildApiUrl(streamAction))
-        ]);
+        const catUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.user}&password=${serverConfig.pass}&action=${catAction}`;
+        const streamUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.user}&password=${serverConfig.pass}&action=${streamAction}`;
 
-        categoriesCache = await catRes.json();
-        streamsCache = await streamRes.json();
+        const cats = await fetchWithMultiProxy(catUrl);
+        const streams = await fetchWithMultiProxy(streamUrl);
+
+        categoriesCache = Array.isArray(cats) ? cats : [];
+        streamsCache = Array.isArray(streams) ? streams : [];
 
         renderCategoriesSidebar();
         renderGrid();
       } catch (err) {
         grid.innerHTML = `
-          <div class="col-span-full text-center py-12 text-rose-400">
-            <p class="font-bold text-base mb-2">Erro ao comunicar com o servidor (${serverConfig.host}).</p>
-            <p class="text-xs text-slate-300 max-w-lg mx-auto mb-4">
-              Dica: Clique em "Configurar Link M3U" no topo e marque a opção "Ativar Proxy CORS", ou certifique-se de abrir o arquivo index.html diretamente pelo navegador sem bloqueio HTTPS.
+          <div class="col-span-full bg-slate-900/90 border border-rose-500/30 rounded-2xl p-5 text-center my-6">
+            <p class="font-bold text-rose-400 text-sm mb-2">O servidor (${serverConfig.host}) bloqueou o acesso via Proxy Web.</p>
+            <p class="text-xs text-slate-300 mb-4">
+              Para funcionar 100% no iPhone sem depender de proxy:
+              <br/>1. Cole o seu link M3U numa nova aba do Chrome (ele vai descarregar o ficheiro <b>get.php / .m3u</b>).
+              <br/>2. Clique no botão abaixo e selecione esse ficheiro descarregado!
             </p>
+            <button onclick="openLoginModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold">
+              Selecionar Ficheiro .M3U Descarregado
+            </button>
           </div>`;
       } finally {
         loader.classList.add('hidden');
@@ -344,10 +415,10 @@
       container.innerHTML = '';
 
       const allBtn = document.createElement('button');
-      allBtn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition ${
-        selectedCategoryId === 'ALL' ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+      allBtn.className = ` shrink-0 px-3 py-2 rounded-xl text-xs font-semibold ${
+        selectedCategoryId === 'ALL' ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-300'
       }`;
-      allBtn.textContent = `TODOS (${streamsCache.length})`;
+      allBtn.textContent = `TODOS (${streamsCache.length || 0})`;
       allBtn.onclick = () => {
         selectedCategoryId = 'ALL';
         renderCategoriesSidebar();
@@ -358,8 +429,8 @@
       categoriesCache.forEach(cat => {
         const btn = document.createElement('button');
         const active = selectedCategoryId === String(cat.category_id);
-        btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-medium truncate transition ${
-          active ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+        btn.className = `shrink-0 md:w-full text-left px-3 py-2 rounded-xl text-xs font-medium truncate ${
+          active ? 'bg-indigo-600 text-white' : 'bg-slate-900/60 text-slate-300'
         }`;
         btn.textContent = cat.category_name;
         btn.onclick = () => {
@@ -378,7 +449,7 @@
       }
 
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      let list = streamsCache;
+      let list = Array.isArray(streamsCache) ? streamsCache : [];
 
       if (selectedCategoryId !== 'ALL') {
         list = list.filter(item => String(item.category_id) === selectedCategoryId);
@@ -387,12 +458,12 @@
         list = list.filter(item => (item.name || item.title || '').toLowerCase().includes(query));
       }
 
-      const displayList = list.slice(0, 150); // Renderiza os 150 primeiros para manter alta velocidade
+      const displayList = list.slice(0, 120);
       const grid = document.getElementById('itemsGrid');
       grid.innerHTML = '';
 
       if (displayList.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-12">Nenhum resultado encontrado.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum canal ou filme encontrado.</p>`;
         return;
       }
 
@@ -403,8 +474,19 @@
         card.className = 'ibo-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between';
 
         card.onclick = () => {
+          if (item.direct_url) {
+            openVideoPlayer({
+              id: `local_${item.stream_id}`,
+              title: title,
+              subtitle: String(item.category_id),
+              url: item.direct_url,
+              type: currentSection,
+              cover: icon
+            });
+            return;
+          }
+
           if (currentSection === 'live') {
-            // Converte automaticamente de .ts para .m3u8 para tocar no navegador
             const liveUrl = `${serverConfig.host}/live/${serverConfig.user}/${serverConfig.pass}/${item.stream_id}.m3u8`;
             openVideoPlayer({
               id: `live_${item.stream_id}`,
@@ -420,22 +502,20 @@
             openVideoPlayer({
               id: `vod_${item.stream_id}`,
               title: title,
-              subtitle: `Filme (${ext.toUpperCase()})`,
+              subtitle: `Filme`,
               url: movieUrl,
               type: 'vod',
               cover: icon
             });
-          } else if (currentSection === 'series') {
-            openSeriesEpisodes(item.series_id, title, icon);
           }
         };
 
         card.innerHTML = `
           ${icon
-            ? `<img src="${icon}" alt="${title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-44 object-cover bg-slate-900" />`
-            : `<div class="w-full h-44 bg-slate-900 flex items-center justify-center text-slate-600 text-3xl"><i class="fa-solid fa-play"></i></div>`
+            ? `<img src="${icon}" alt="${title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-36 object-cover bg-slate-900" />`
+            : `<div class="w-full h-36 bg-slate-900 flex items-center justify-center text-slate-600 text-2xl"><i class="fa-solid fa-play"></i></div>`
           }
-          <div class="p-3">
+          <div class="p-2.5">
             <h4 class="text-xs font-semibold line-clamp-2">${title}</h4>
           </div>
         `;
@@ -443,66 +523,6 @@
       });
     }
 
-    // LISTAR TEMPORADAS E EPISÓDIOS DA SÉRIE
-    async function openSeriesEpisodes(seriesId, seriesTitle, cover) {
-      const modal = document.getElementById('seriesModal');
-      const container = document.getElementById('seriesEpisodesList');
-      document.getElementById('seriesModalTitle').textContent = seriesTitle;
-      container.innerHTML = `<p class="text-center py-8 text-indigo-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Carregando episódios...</p>`;
-      modal.classList.remove('hidden');
-
-      try {
-        const res = await fetch(buildApiUrl('get_series_info', `&series_id=${seriesId}`));
-        const data = await res.json();
-        container.innerHTML = '';
-
-        const episodesBySeason = data.episodes || {};
-        const seasons = Object.keys(episodesBySeason);
-
-        if (seasons.length === 0) {
-          container.innerHTML = `<p class="text-center text-slate-400 py-6">Nenhum episódio disponível.</p>`;
-          return;
-        }
-
-        seasons.forEach(seasonNum => {
-          const seasonHeader = document.createElement('div');
-          seasonHeader.className = 'text-xs font-bold uppercase text-indigo-400 pt-3 pb-1 border-b border-white/10';
-          seasonHeader.textContent = `Temporada ${seasonNum}`;
-          container.appendChild(seasonHeader);
-
-          episodesBySeason[seasonNum].forEach(ep => {
-            const ext = ep.container_extension || 'mp4';
-            const epUrl = `${serverConfig.host}/series/${serverConfig.user}/${serverConfig.pass}/${ep.id}.${ext}`;
-            const epRow = document.createElement('div');
-            epRow.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 cursor-pointer transition';
-            epRow.innerHTML = `
-              <span class="text-xs font-medium">Ep. ${ep.episode_num} - ${ep.title || 'Episódio ' + ep.episode_num}</span>
-              <span class="text-xs text-indigo-400 font-semibold"><i class="fa-solid fa-play mr-1"></i> Assistir</span>
-            `;
-            epRow.onclick = () => {
-              closeSeriesModal();
-              openVideoPlayer({
-                id: `series_${ep.id}`,
-                title: `${seriesTitle} - S${seasonNum}E${ep.episode_num}`,
-                subtitle: ep.title || '',
-                url: epUrl,
-                type: 'series',
-                cover: cover
-              });
-            };
-            container.appendChild(epRow);
-          });
-        });
-      } catch (e) {
-        container.innerHTML = `<p class="text-center text-rose-400 py-6">Erro ao carregar temporadas.</p>`;
-      }
-    }
-
-    function closeSeriesModal() {
-      document.getElementById('seriesModal').classList.add('hidden');
-    }
-
-    // REPRODUTOR DE VÍDEO E DOWNLOAD OFFLINE INTERNO
     function openVideoPlayer(item, isOfflineBlob = false) {
       currentPlayingData = item;
       const modal = document.getElementById('playerModal');
@@ -515,16 +535,12 @@
 
       if ((item.type === 'vod' || item.type === 'series') && !isOfflineBlob) {
         dlBtn.classList.remove('hidden');
-        document.getElementById('downloadBtnText').textContent = 'Baixar p/ Assistir Offline';
+        document.getElementById('downloadBtnText').textContent = 'Guardar Offline';
       } else {
         dlBtn.classList.add('hidden');
       }
 
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
-
+      if (hls) { hls.destroy(); hls = null; }
       const playUrl = isOfflineBlob ? URL.createObjectURL(item.blob) : item.url;
 
       if (!isOfflineBlob && playUrl.includes('.m3u8') && Hls.isSupported()) {
@@ -540,102 +556,54 @@
       const video = document.getElementById('videoPlayer');
       video.pause();
       video.src = '';
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
+      if (hls) { hls.destroy(); hls = null; }
       document.getElementById('playerModal').classList.add('hidden');
     }
 
-    // BAIXAR FILME/EPISÓDIO COM PROGRESSO E GUARDAR DENTRO DO SITE (INDEXEDDB)
     async function downloadCurrentForOffline() {
       if (!currentPlayingData || !db) return;
       const btnText = document.getElementById('downloadBtnText');
-
       try {
-        btnText.textContent = 'Iniciando download (0%)...';
-        const fetchUrl = serverConfig.useProxy
-          ? `https://corsproxy.io/?${encodeURIComponent(currentPlayingData.url)}`
-          : currentPlayingData.url;
-
-        const response = await fetch(fetchUrl);
-        if (!response.ok) throw new Error('Servidor recusou download offline direto.');
-
-        const contentLength = +response.headers.get('Content-Length') || 0;
-        const reader = response.body.getReader();
-        let receivedLength = 0;
-        const chunks = [];
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value);
-          receivedLength += value.length;
-          if (contentLength > 0) {
-            const percent = Math.round((receivedLength / contentLength) * 100);
-            btnText.textContent = `Salvando Offline (${percent}%)...`;
-          } else {
-            const mb = (receivedLength / (1024 * 1024)).toFixed(1);
-            btnText.textContent = `Salvando Offline (${mb} MB)...`;
-          }
-        }
-
-        const blob = new Blob(chunks, { type: 'video/mp4' });
+        btnText.textContent = 'A guardar...';
+        const response = await fetch(currentPlayingData.url);
+        const blob = await response.blob();
         const tx = db.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).put({
           id: currentPlayingData.id,
           title: currentPlayingData.title,
-          subtitle: 'Salvo para assistir sem internet',
-          cover: currentPlayingData.cover || '',
+          subtitle: 'Disponível Offline',
           blob: blob
         });
-
         tx.oncomplete = () => {
-          btnText.textContent = 'Salvo no Modo Offline!';
+          btnText.textContent = 'Guardado!';
           updateOfflineBadge();
         };
       } catch (e) {
-        alert('Não foi possível salvar offline direto no navegador: ' + e.message);
-        btnText.textContent = 'Baixar p/ Assistir Offline';
+        alert('O servidor bloqueou o download offline direto deste vídeo.');
+        btnText.textContent = 'Guardar Offline';
       }
     }
 
     function renderOfflineCatalog() {
-      document.getElementById('categoryList').innerHTML = `
-        <div class="p-3 text-xs text-slate-400">
-          Estes filmes e episódios estão guardados na memória interna do navegador e rodam mesmo com o Wi-Fi/Dados desligados.
-        </div>`;
-
       const grid = document.getElementById('itemsGrid');
       grid.innerHTML = '';
-
       if (!db) return;
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const req = tx.objectStore(STORE_NAME).getAll();
-
+      const req = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).getAll();
       req.onsuccess = () => {
         const items = req.result;
         if (items.length === 0) {
-          grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-12">Você ainda não salvou nenhum filme ou episódio para assistir offline.</p>`;
+          grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-xs">Nenhum vídeo guardado offline.</p>`;
           return;
         }
-
         items.forEach(item => {
           const card = document.createElement('div');
-          card.className = 'ibo-card rounded-xl overflow-hidden flex flex-col justify-between';
+          card.className = 'ibo-card rounded-xl overflow-hidden flex flex-col justify-between p-3';
           card.innerHTML = `
-            <div onclick="playFromOfflineDB('${item.id}')" class="cursor-pointer">
-              <div class="w-full h-40 bg-indigo-950/60 flex items-center justify-center text-indigo-400 text-3xl">
-                <i class="fa-solid fa-circle-play"></i>
-              </div>
-              <div class="p-3">
-                <h4 class="text-xs font-semibold line-clamp-2">${item.title}</h4>
-                <p class="text-[10px] text-emerald-400 mt-1"><i class="fa-solid fa-bolt mr-1"></i>Pronto para ver Offline</p>
-              </div>
+            <div onclick="playFromOfflineDB('${item.id}')" class="cursor-pointer mb-2">
+              <h4 class="text-xs font-bold">${item.title}</h4>
+              <p class="text-[10px] text-emerald-400 mt-1">Pronto para assistir sem internet</p>
             </div>
-            <button onclick="removeOfflineItem('${item.id}')" class="w-full py-1.5 bg-rose-950/70 hover:bg-rose-600 text-[11px] text-rose-200 hover:text-white transition">
-              Apagar do Offline
-            </button>
+            <button onclick="removeOfflineItem('${item.id}')" class="w-full py-1 bg-rose-900/60 rounded text-[10px]">Apagar</button>
           `;
           grid.appendChild(card);
         });
@@ -643,20 +611,14 @@
     }
 
     function playFromOfflineDB(id) {
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const req = tx.objectStore(STORE_NAME).get(id);
-      req.onsuccess = () => {
-        if (req.result) openVideoPlayer(req.result, true);
-      };
+      const req = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).get(id);
+      req.onsuccess = () => { if (req.result) openVideoPlayer(req.result, true); };
     }
 
     function removeOfflineItem(id) {
       const tx = db.transaction(STORE_NAME, 'readwrite');
       tx.objectStore(STORE_NAME).delete(id);
-      tx.oncomplete = () => {
-        updateOfflineBadge();
-        renderOfflineCatalog();
-      };
+      tx.oncomplete = () => { updateOfflineBadge(); renderOfflineCatalog(); };
     }
   </script>
 </body>
